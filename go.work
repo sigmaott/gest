@@ -1,0 +1,8 @@
+go 1.19
+use (
+	./package/core
+	./package/common/config
+	./package/extension/echofx
+	./payment
+)
+replace  github.com/gestgo/gest/package/common/config => ./package/common/config v1.0.0
