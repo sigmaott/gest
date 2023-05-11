@@ -8,9 +8,11 @@ require (
 	github.com/gestgo/gest/package/extension/echofx v0.0.0-20230420142011-d667b63a57c6
 	github.com/gestgo/gest/package/extension/i18nfx v0.0.0-20230420142011-d667b63a57c6
 	github.com/gestgo/gest/package/extension/logfx v0.0.0-20230420142011-d667b63a57c6
+	github.com/gestgo/gest/package/technique/mongo v0.0.0-20230511012607-5b007a59cf74
 	github.com/gestgo/gest/package/technique/validate v0.0.0-20230420142011-d667b63a57c6
 	github.com/go-playground/locales v0.14.1
 	github.com/labstack/echo/v4 v4.10.2
+	github.com/samber/lo v1.38.1
 	github.com/swaggo/files/v2 v2.0.0
 	github.com/swaggo/swag v1.16.1
 	go.mongodb.org/mongo-driver v1.11.6
@@ -60,6 +62,7 @@ require (
 	go.uber.org/dig v1.16.1 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
 	golang.org/x/crypto v0.7.0 // indirect
+	golang.org/x/exp v0.0.0-20220303212507-bbda1eaf7a17 // indirect
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
