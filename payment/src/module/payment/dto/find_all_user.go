@@ -1,6 +1,6 @@
 package dto
 
 type GetListUserQuery struct {
-	Q int `json:"q" validate:"required" query:"q"`
-	A int `json:"a"`
+	Q string `json:"q" validate:"required,email" query:"q"`
+	A string `json:"a"`
 }

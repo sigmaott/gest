@@ -20,7 +20,7 @@ func (b *QueryParams[T]) Parser(next echo.HandlerFunc) echo.HandlerFunc {
 		data := new(T)
 		err := b.binder.BindQueryParams(c, data)
 		if err != nil {
-			return c.JSON(400, err)
+			return err
 		}
 
 		if b.validate {

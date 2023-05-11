@@ -20,7 +20,7 @@ func (b *BodyParser[T]) Parser(next echo.HandlerFunc) echo.HandlerFunc {
 		data := new(T)
 		err := b.binder.BindBody(c, data)
 		if err != nil {
-			return c.JSON(400, err)
+			return err
 		}
 
 		for _, pipe := range b.pipes {

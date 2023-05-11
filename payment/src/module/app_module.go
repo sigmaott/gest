@@ -79,6 +79,7 @@ func NewApp() *fx.App {
 		payment.Module(),
 		logfx.Module(),
 		i18nfx.Module(),
+		fx.Invoke(EnableValidationRequest),
 		fx.Invoke(EnableLogRequest),
 		fx.Invoke(EnableSwagger),
 		fx.Invoke(EnableErrorHandler),
