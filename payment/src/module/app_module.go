@@ -44,6 +44,7 @@ func NewMongoConnection() *mongo.Database {
 }
 
 func NewApp() *fx.App {
+
 	return fx.New(
 		fx.Provide(
 			func() *mongo.Database {
@@ -78,7 +79,10 @@ func NewApp() *fx.App {
 		payment.Module(),
 		logfx.Module(),
 		i18nfx.Module(),
+		fx.Invoke(EnableLogRequest),
 		fx.Invoke(EnableSwagger),
+		fx.Invoke(EnableErrorHandler),
+		fx.Invoke(EnableNotFound),
 		fx.Invoke(func(*echo.Echo) {}),
 	)
 

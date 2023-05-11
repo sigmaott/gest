@@ -8,8 +8,8 @@ import (
 	"go.uber.org/zap"
 	"log"
 	"net/http"
-	"payment/src/module/payment/model"
-	queryBuilder "payment/src/module/payment/query-builder"
+	"payment/src/module/payment/bind"
+	"payment/src/module/payment/dto"
 	"payment/src/module/payment/repository"
 )
 
@@ -49,14 +49,25 @@ func NewRouter(params Params) Result {
 }
 
 func (b *Controller) FindAll() {
-	b.router.GET("/users", func(c echo.Context) error {
-
+	b.router.POST("/users", func(c echo.Context) error {
+		//query := new(map[string]any)
+		//json.NewEncoder(c.Request().Body).Encode(query)
+		query := new(dto.GetListUserQuery)
+		bind := bind.NewBind()
+		err := bind.BindBody(c, query)
+		if err != nil {
+			log.Print(err)
+			return err
+		}
+		//log.Print(err)
 		//message, err := b.i18nService.T("en", locales.CARDINAL_TEST)
-		result, sort, err := queryBuilder.MongoParserQuery[model.Payment](c.Request().URL.Query())
-		log.Print(result, sort, err)
+		//result, sort, err := queryBuilder.MongoParserQuery[model.Payment](c.Request().URL.Query())
+		//log.Print(result, sort, err)
 		//b.logger.Info()
 		//b.repository.FindAll()
-		return c.String(http.StatusOK, "ok")
+		//b.repository.FindAll()
+		//return errors.New("error")
+		return c.JSON(http.StatusOK, query)
 	})
 
 }
