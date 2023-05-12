@@ -15,7 +15,7 @@ func RegisterTranslations(validate *validator.Validate, trans ut.Translator, bui
 		validate.RegisterTranslation(s, trans, func(ut ut.Translator) error {
 			return ut.Add(s, message, true)
 		}, func(ut ut.Translator, fe validator.FieldError) string {
-			t, _ := ut.T(s, fe.StructNamespace())
+			t, _ := ut.T(s, fe.Namespace())
 			return t
 		})
 	}

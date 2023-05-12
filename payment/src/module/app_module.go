@@ -8,6 +8,9 @@ import (
 	"github.com/gestgo/gest/package/extension/i18nfx/loader"
 	"github.com/gestgo/gest/package/extension/logfx"
 	"github.com/go-playground/locales/en"
+	"github.com/go-playground/locales/vi"
+	ut "github.com/go-playground/universal-translator"
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -74,17 +77,36 @@ func NewApp() *fx.App {
 				fx.ResultTags(`group:"translators"`),
 			),
 		),
+		fx.Provide(
+			func() *validator.Validate {
+				return validator.New()
+			},
+			fx.Annotate(
+				func(ut *ut.UniversalTranslator) *ut.UniversalTranslator {
+					english := en.New()
+					vietnam := vi.New()
+					ut.AddTranslator(english, false)
+					ut.AddTranslator(vietnam, false)
+					return ut
+				},
+				fx.ParamTags(`name:"universalTranslator"`),
+			),
 
+			NewI18nValidate,
+		),
 		echofx.Module(),
 		payment.Module(),
 		logfx.Module(),
 		i18nfx.Module(),
+		fx.Invoke(RegisterValidateTranslations),
 		fx.Invoke(EnableValidationRequest),
 		fx.Invoke(EnableLogRequest),
-		fx.Invoke(EnableSwagger),
+
 		fx.Invoke(EnableErrorHandler),
 		fx.Invoke(EnableNotFound),
 		fx.Invoke(func(*echo.Echo) {}),
+		fx.Invoke(EnableSwagger),
+		fx.Invoke(EnableLogRouter),
 	)
 
 }

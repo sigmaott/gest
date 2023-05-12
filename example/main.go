@@ -1,9 +1,13 @@
-package main
-
-import (
-	"fmt"
-	"regexp"
-)
+//package main
+//
+//import (
+//	"fmt"
+//	"github.com/go-playground/locales/en"
+//	ut "github.com/go-playground/universal-translator"
+//	"github.com/go-playground/validator/v10"
+//	en_translations "github.com/go-playground/validator/v10/translations/en"
+//	"regexp"
+//)
 
 //type Person struct {
 //	Name    string `json:"name"`
@@ -38,20 +42,66 @@ import (
 //	fmt.Println(person.Address) // "123 Main St"
 //}
 
+package main
+
+import (
+	"fmt"
+	"github.com/go-playground/locales/en"
+	ut "github.com/go-playground/universal-translator"
+	"github.com/go-playground/validator/v10"
+	en_translations "github.com/go-playground/validator/v10/translations/en"
+)
+
+type Address struct {
+	Street string `validate:"required"`
+	City   string `validate:"required"`
+}
+
+type User struct {
+	Name    string  `validate:"required"`
+	Age     int     `validate:"required,min=18"`
+	Address Address `validate:"required,dive"`
+}
+
 func main() {
-	errorMessage := fmt.Sprintf("'%s' expected type '%s', got unconvertible type '%s', value: '%v'", "q", "int", "string", "r")
+	// Create a new validator instance
+	validate := validator.New()
 
-	// Define a regular expression pattern to match the value part of the error message
-	pattern := `value:\s*'([\w\s]*)'`
-	regex := regexp.MustCompile(pattern)
+	// Create a new English translator instance
+	enTranslator := en.New()
+	uniTranslator := ut.New(enTranslator, enTranslator)
+	trans, _ := uniTranslator.GetTranslator("en")
 
-	// Find the first submatch that matches the pattern in the error message
-	match := regex.FindStringSubmatch(errorMessage)
+	// Register the English translator for the validator
+	en_translations.RegisterDefaultTranslations(validate, trans)
 
-	// Extract the captured value from the match
-	if len(match) >= 2 {
-		value := match[1]
-		fmt.Println(value)
-		fmt.Println(match)
+	// Validate a struct
+	user := User{
+		Name: "Alice",
+		Age:  16,
+		Address: Address{
+			Street: "",
+			City:   "Wonderland",
+		},
+	}
+	err := validate.Struct(user)
+	if err != nil {
+		// Convert the errors to a map with the full path of each field
+		errorsMap := make(map[string]string)
+		errors := err.(validator.ValidationErrors)
+		for _, e := range errors {
+			// Get the field name and full path
+			//fieldName := e.Field()
+			fullPath := e.Namespace()
+
+			// Get the translated error message
+			message := e.Translate(trans)
+
+			// Store the error message with the full path
+			errorsMap[fullPath] = message
+		}
+
+		// Print the errors map
+		fmt.Println(errorsMap)
 	}
 }

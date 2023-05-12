@@ -2,11 +2,11 @@ package controller
 
 import (
 	"github.com/gestgo/gest/package/core/router"
+	"github.com/gestgo/gest/package/extension/echofx/parser"
 	"github.com/gestgo/gest/package/extension/i18nfx"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
-	"log"
 	"net/http"
 	"payment/src/module/payment/dto"
 	"payment/src/module/payment/repository"
@@ -49,18 +49,22 @@ func NewRouter(params Params) Result {
 
 func (b *Controller) FindAll() {
 	b.router.POST("/users", func(c echo.Context) error {
-		query := new(dto.GetListUserQuery)
-		err := c.Bind(query)
-		if err != nil {
-			log.Print(err)
-			return err
-		}
-		err = c.Validate(query)
-		if err != nil {
-			log.Print(err)
-			return err
-		}
-		log.Print(err)
+		//c.Request().Header.Get("")
+		//appId := common.GetAppId(c)
+		//lang := common.GetAcceptLanguage(c)
+		//log.Print(appId, lang)
+		//query := new(dto.GetListUserQuery)
+		//err := c.Bind(query)
+		//if err != nil {
+		//	log.Print(err)
+		//	return err
+		//}
+		//err = c.Validate(query)
+		//if err != nil {
+		//	log.Print(err)
+		//	return err
+		//}
+		//log.Print(c.Get("body"))
 		//message, err := b.i18nService.T("en", locales.CARDINAL_TEST)
 		//result, sort, err := queryBuilder.MongoParserQuery[model.Payment](c.Request().URL.Query())
 		//log.Print(result, sort, err)
@@ -68,7 +72,7 @@ func (b *Controller) FindAll() {
 		//b.repository.FindAll()
 		//b.repository.FindAll()
 		//return errors.New("error")
-		return c.JSON(http.StatusOK, query)
-	})
+		return c.JSON(http.StatusOK, "ok")
+	}, parser.NewBodyParser[dto.GetListUserQuery]("body", true).Parser)
 
 }

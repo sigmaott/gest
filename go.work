@@ -15,6 +15,7 @@ replace (
     github.com/gestgo/gest/package/core v1.0.0 => ./package/core
     github.com/gestgo/gest/package/common/config v1.0.0 => ./package/common/config
     github.com/gestgo/gest/package/common/mapstructure v1.0.0 => ./package/common/mapstructure
+    github.com/gestgo/gest/package/common/pagination v1.0.0 => ./package/common/pagination
     github.com/gestgo/gest/package/extension/echofx v1.0.0 => ./package/extension/echofx
 	github.com/gestgo/gest/package/extension/logfx v1.0.0  => ./package/extension/logfx
 	github.com/gestgo/gest/package/extension/i18nfx v1.0.0 => ./package/extension/i18nfx

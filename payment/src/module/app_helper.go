@@ -3,7 +3,10 @@ package module
 import (
 	"fmt"
 	"github.com/gestgo/gest/package/technique/validate"
+	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
+	en_translations "github.com/go-playground/validator/v10/translations/en"
+	vi_translations "github.com/go-playground/validator/v10/translations/vi"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"go.uber.org/zap"
@@ -28,8 +31,8 @@ func EnableSwagger(e *echo.Group, logger *zap.SugaredLogger) {
 	e.GET("/*", echoSwagger.WrapHandler)
 }
 
-func EnableErrorHandler(e *echo.Echo) {
-	echoExceptionFilter := NewEchoExceptionFilter(BadRequestErrorFilter, ValidateErrorFilter, InternalServerErrorFilter)
+func EnableErrorHandler(e *echo.Echo, i18nValidate *I18nValidate) {
+	echoExceptionFilter := NewEchoExceptionFilter(BadRequestErrorFilter, i18nValidate.ValidateErrorFilter, InternalServerErrorFilter)
 	e.HTTPErrorHandler = echoExceptionFilter.Catch
 
 }
@@ -41,21 +44,15 @@ func SetGlobalPrefix(e *echo.Echo) *echo.Group {
 func EnableNotFound(e *echo.Echo, group *echo.Group) {
 	e.Any("/*", customHTTP404RouterHandler)
 
-	group.Any("/*", customHTTP404RouterHandler)
+	//group.Any("/*", customHTTP404RouterHandler)
 
 }
 
-func EnableValidationRequest(e *echo.Echo) {
-	//validator = validator.New()
-	e.Validator = validate.NewGestGoValidator(validator.New())
+func EnableValidationRequest(e *echo.Echo, v *validator.Validate) {
+	e.Validator = validate.NewGestGoValidator(v)
 
 }
-func customV2HTTPErrorHandler(handlerErrors ...func(err error, c echo.Context)) {
-	for _, handlerError := range handlerErrors {
-		customV2HTTPErrorHandler(handlerError)
-	}
 
-}
 func InternalServerErrorFilter(err error, c echo.Context) (code int, res any) {
 
 	//he, ok := err.(*echo.HTTPError)
@@ -73,12 +70,6 @@ func InternalServerErrorFilter(err error, c echo.Context) (code int, res any) {
 			return
 		}
 	}
-	//log.Print(err)
-	//if _, ok := err.(*validator.InvalidValidationError); ok {
-	//	fmt.Println(err)
-	//	return
-	//}
-
 	errorRes := HttpError[string]{
 		StatusCode: http.StatusInternalServerError,
 		Message:    "Internal Server Error",
@@ -95,11 +86,11 @@ func BadRequestErrorFilter(err error, c echo.Context) (code int, res any) {
 			errorBadRequest := BadRequestError[any]{
 				HttpError: HttpError[any]{
 					StatusCode: he.Code,
-					Message:    "Invalid data format",
+					Message:    "Bad Request",
 					Path:       c.Request().URL.Path,
 					Timestamp:  time.Now().UnixMilli(),
 				},
-				Reasons: he.Message,
+				Errors: he.Message,
 			}
 			return http.StatusBadRequest, errorBadRequest
 		}
@@ -107,63 +98,6 @@ func BadRequestErrorFilter(err error, c echo.Context) (code int, res any) {
 	return
 }
 
-func ValidateErrorFilter(err error, c echo.Context) (code int, res any) {
-	if he, ok := err.(validator.ValidationErrors); ok {
-
-		errorBadRequest := HttpError[any]{
-			StatusCode: http.StatusBadRequest,
-			Message:    he.Error(),
-			Path:       c.Request().URL.Path,
-			Timestamp:  time.Now().UnixMilli(),
-		}
-		return http.StatusBadRequest, errorBadRequest
-
-	}
-	return
-}
-func customHTTPErrorFilter(err error, c echo.Context) {
-
-	//he, ok := err.(*echo.HTTPError)
-	// 400 status
-	if he, ok := err.(*echo.HTTPError); ok {
-
-		if he.Code == http.StatusBadRequest {
-			error400 := HttpError[any]{
-				StatusCode: he.Code,
-				Message:    he.Message,
-				Path:       c.Request().URL.Path,
-				Timestamp:  time.Now().UnixMilli(),
-			}
-			c.JSON(http.StatusBadRequest, error400)
-			return
-		}
-	}
-	//log.Print(err)
-	//if _, ok := err.(*validator.InvalidValidationError); ok {
-	//	fmt.Println(err)
-	//	return
-	//}
-
-	if he, ok := err.(validator.ValidationErrors); ok {
-		error400 := HttpError[any]{
-			StatusCode: http.StatusBadRequest,
-			Message:    he.Error(),
-			Path:       c.Request().URL.Path,
-			Timestamp:  time.Now().UnixMilli(),
-		}
-		c.JSON(http.StatusBadRequest, error400)
-		return
-	}
-
-	// 500 status
-	errorRes := HttpError[string]{
-		StatusCode: http.StatusInternalServerError,
-		Message:    "Internal Server Error",
-		Path:       c.Request().URL.Path,
-		Timestamp:  time.Now().UnixMilli(),
-	}
-	c.JSON(http.StatusInternalServerError, errorRes)
-}
 func customHTTP404RouterHandler(c echo.Context) error {
 	code := http.StatusNotFound
 	errorRes := HttpError[string]{
@@ -175,13 +109,21 @@ func customHTTP404RouterHandler(c echo.Context) error {
 	return c.JSON(code, errorRes)
 }
 
-type BadRequestError[T any] struct {
-	HttpError[T]
-	Reasons any `json:"reason,omitempty"`
+func EnableLogRouter(e *echo.Echo, logger *zap.SugaredLogger) {
+	//data, _ := json.MarshalIndent(e.Routes(), "", "  ")
+	//
+	////e.Routers()
+	//logger.Infof("%+v", string(data))
+	logger.Infof("%+v", "******************* Router ***************")
+	for _, route := range e.Routes() {
+		logger.Infof(" %+v %+v", route.Method, route.Path)
+	}
+
 }
-type HttpError[T any] struct {
-	StatusCode int    `json:"statusCode"`
-	Message    T      `json:"message"`
-	Path       string `json:"path"`
-	Timestamp  int64  `json:"timestamp"`
+
+func RegisterValidateTranslations(validate *validator.Validate, Ut *ut.UniversalTranslator) {
+	enTrans, _ := Ut.GetTranslator("en")
+	en_translations.RegisterDefaultTranslations(validate, enTrans)
+	viTrans, _ := Ut.GetTranslator("vi")
+	vi_translations.RegisterDefaultTranslations(validate, viTrans)
 }

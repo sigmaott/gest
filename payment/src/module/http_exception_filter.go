@@ -23,3 +23,14 @@ func NewEchoExceptionFilter(filters ...func(err error, c echo.Context) (code int
 	}
 
 }
+
+type BadRequestError[T any] struct {
+	HttpError[T]
+	Errors any `json:"errors,omitempty"`
+}
+type HttpError[T any] struct {
+	StatusCode int    `json:"statusCode"`
+	Message    T      `json:"message"`
+	Path       string `json:"path"`
+	Timestamp  int64  `json:"timestamp"`
+}
