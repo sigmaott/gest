@@ -9,7 +9,6 @@ use (
 	./package/technique/mongo
 	./package/common/mapstructure
 	./payment
-	example
 )
 replace (
     github.com/gestgo/gest/package/core v1.0.0 => ./package/core

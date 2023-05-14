@@ -2,14 +2,16 @@ package module
 
 import (
 	"fmt"
+	errorGest "github.com/gestgo/gest/package/core/error"
 	"github.com/gestgo/gest/package/technique/validate"
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
-	en_translations "github.com/go-playground/validator/v10/translations/en"
-	vi_translations "github.com/go-playground/validator/v10/translations/vi"
+	enTranslations "github.com/go-playground/validator/v10/translations/en"
+	viTranslations "github.com/go-playground/validator/v10/translations/vi"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"go.uber.org/zap"
+	"log"
 	"net/http"
 	"payment/config"
 	"payment/docs"
@@ -32,8 +34,8 @@ func EnableSwagger(e *echo.Group, logger *zap.SugaredLogger) {
 }
 
 func EnableErrorHandler(e *echo.Echo, i18nValidate *I18nValidate) {
-	echoExceptionFilter := NewEchoExceptionFilter(BadRequestErrorFilter, i18nValidate.ValidateErrorFilter, InternalServerErrorFilter)
-	e.HTTPErrorHandler = echoExceptionFilter.Catch
+	echoExceptionFilter := errorGest.NewEchoExceptionFilter(BadRequestErrorFilter, i18nValidate.ValidateErrorFilter, InternalServerErrorFilter)
+	e.HTTPErrorHandler = echoExceptionFilter.CatchError
 
 }
 
@@ -57,20 +59,21 @@ func InternalServerErrorFilter(err error, c echo.Context) (code int, res any) {
 
 	//he, ok := err.(*echo.HTTPError)
 	// 400 status
-	if he, ok := err.(*echo.HTTPError); ok {
-
-		if he.Code == http.StatusBadRequest {
-			error400 := HttpError[any]{
-				StatusCode: he.Code,
-				Message:    he.Message,
-				Path:       c.Request().URL.Path,
-				Timestamp:  time.Now().UnixMilli(),
-			}
-			c.JSON(http.StatusBadRequest, error400)
-			return
-		}
-	}
-	errorRes := HttpError[string]{
+	//if he, ok := err.(*echo.HTTPError); ok {
+	//
+	//	if he.Code == http.StatusBadRequest {
+	//		error400 := errorGest.HttpError[any]{
+	//			StatusCode: he.Code,
+	//			Message:    he.Message,
+	//			Path:       c.Request().URL.Path,
+	//			Timestamp:  time.Now().UnixMilli(),
+	//		}
+	//		c.JSON(http.StatusBadRequest, error400)
+	//		return
+	//	}
+	//}
+	log.Print(err)
+	errorRes := errorGest.HttpError[string]{
 		StatusCode: http.StatusInternalServerError,
 		Message:    "Internal Server Error",
 		Path:       c.Request().URL.Path,
@@ -84,7 +87,7 @@ func BadRequestErrorFilter(err error, c echo.Context) (code int, res any) {
 
 		if he.Code == http.StatusBadRequest {
 			errorBadRequest := BadRequestError[any]{
-				HttpError: HttpError[any]{
+				HttpError: errorGest.HttpError[any]{
 					StatusCode: he.Code,
 					Message:    "Bad Request",
 					Path:       c.Request().URL.Path,
@@ -100,7 +103,7 @@ func BadRequestErrorFilter(err error, c echo.Context) (code int, res any) {
 
 func customHTTP404RouterHandler(c echo.Context) error {
 	code := http.StatusNotFound
-	errorRes := HttpError[string]{
+	errorRes := errorGest.HttpError[string]{
 		StatusCode: code,
 		Message:    fmt.Sprintf("Cannot %s %s", c.Request().Method, c.Request().URL.Path),
 		Path:       c.Request().URL.Path,
@@ -123,7 +126,16 @@ func EnableLogRouter(e *echo.Echo, logger *zap.SugaredLogger) {
 
 func RegisterValidateTranslations(validate *validator.Validate, Ut *ut.UniversalTranslator) {
 	enTrans, _ := Ut.GetTranslator("en")
-	en_translations.RegisterDefaultTranslations(validate, enTrans)
+	err := enTranslations.RegisterDefaultTranslations(validate, enTrans)
+	if err != nil {
+
+		log.Print(err)
+		return
+	}
 	viTrans, _ := Ut.GetTranslator("vi")
-	vi_translations.RegisterDefaultTranslations(validate, viTrans)
+	err = viTranslations.RegisterDefaultTranslations(validate, viTrans)
+	if err != nil {
+		log.Print(err)
+		return
+	}
 }
