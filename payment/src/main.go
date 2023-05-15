@@ -12,7 +12,9 @@ import (
 // @contact.email fiber@swagger.io
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-
+// @securityDefinitions.basic BasicAuth
+// @in header
+// @name Authorization
 func main() {
 
 	app := module.NewApp()

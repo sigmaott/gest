@@ -1,3 +1,18 @@
+definitions:
+  model.Bs:
+    properties:
+      age:
+        type: string
+      name:
+        type: string
+    type: object
+  model.Payment:
+    properties:
+      bs:
+        $ref: '#/definitions/model.Bs'
+      name:
+        type: string
+    type: object
 info:
   contact:
     email: fiber@swagger.io
@@ -9,5 +24,26 @@ info:
   termsOfService: http://swagger.io/terms/
   title: Gest Example API
   version: "1.0"
-paths: {}
+paths:
+  /payment-intents/{id}:
+    delete:
+      parameters:
+      - description: model.PaymentIntent ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Payment'
+      summary: Get a user by ID
+      tags:
+      - payment-intents
+securityDefinitions:
+  BasicAuth:
+    type: basic
 swagger: "2.0"

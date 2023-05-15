@@ -47,6 +47,12 @@ func NewRouter(params Params) Result {
 
 }
 
+// @Summary Get a user by ID
+// @Tags payment-intents
+// @Produce json
+// @Param id path string true "model.PaymentIntent ID"
+// @Success 200 {object} model.Payment
+// @Router /payment-intents/{id} [delete]
 func (b *Controller) FindAll() {
 	b.router.POST("/users", func(c echo.Context) error {
 		//c.Request().Header.Get("")
