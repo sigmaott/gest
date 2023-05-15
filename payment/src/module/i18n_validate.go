@@ -2,6 +2,7 @@ package module
 
 import (
 	"fmt"
+	errorGest "github.com/gestgo/gest/package/core/error"
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
@@ -19,7 +20,7 @@ type I18nValidate struct {
 }
 type I18nValidateParams struct {
 	fx.In
-	Ut       *ut.UniversalTranslator
+	ut       *ut.UniversalTranslator
 	validate *validator.Validate
 }
 
@@ -65,7 +66,7 @@ func (i *I18nValidate) ValidateErrorFilter(err error, c echo.Context) (code int,
 	if he, ok := err.(validator.ValidationErrors); ok {
 
 		errorBadRequest := BadRequestError[any]{
-			HttpError: HttpError[any]{
+			HttpError: errorGest.HttpError[any]{
 				StatusCode: http.StatusBadRequest,
 				Message:    "Bad Request",
 				Path:       c.Request().URL.Path,

@@ -101,12 +101,11 @@ func NewApp() *fx.App {
 		fx.Invoke(RegisterValidateTranslations),
 		fx.Invoke(EnableValidationRequest),
 		fx.Invoke(EnableLogRequest),
-
 		fx.Invoke(EnableErrorHandler),
 		fx.Invoke(EnableNotFound),
-		fx.Invoke(func(*echo.Echo) {}),
 		fx.Invoke(EnableSwagger),
 		fx.Invoke(EnableLogRouter),
+		fx.Invoke(func(*echo.Echo) {}),
 	)
 
 }
