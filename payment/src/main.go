@@ -16,7 +16,6 @@ import (
 // @in header
 // @name Authorization
 func main() {
-
 	app := module.NewApp()
 	app.Run()
 }

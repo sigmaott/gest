@@ -1,0 +1,28 @@
+{
+  "name": "go-base",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/phongthien/go-base.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/phongthien/go-base/issues"
+  },
+  "homepage": "https://gitlab.com/phongthien/go-base#readme",
+  "dependencies": {
+    "husky": "^8.0.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.3",
+    "@commitlint/config-conventional": "^17.6.3",
+    "husky": "^8.0.0"
+  }
+}

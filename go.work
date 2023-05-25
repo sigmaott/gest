@@ -9,6 +9,7 @@ use (
 	./package/technique/mongo
 	./package/common/mapstructure
 	./payment
+	package/extension/httpfx
 )
 replace (
     github.com/gestgo/gest/package/core v1.0.0 => ./package/core
