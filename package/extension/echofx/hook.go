@@ -10,9 +10,9 @@ import (
 
 type Params struct {
 	fx.In
-	PlatformEcho     *echo.Echo       `name:"platformEcho"`
-	PlatformEchoPort int              `name:"platformEchoPort"`
-	Routers          []router.IRouter `group:"echoRouters"`
+	PlatformEcho     *echo.Echo `name:"platformEcho"`
+	PlatformEchoPort int        `name:"platformEchoPort"`
+	Routers          []any      `group:"echoRouters"`
 }
 
 func RegisterEchoHooks(

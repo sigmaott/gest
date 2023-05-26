@@ -11,7 +11,7 @@ import (
 func Module() fx.Option {
 	return fx.Module("payment",
 		fx.Provide(
-			controller.NewRouter,
+			controller.NewController,
 			service.NewUserService,
 			repository.NewPaymentRepository,
 		),

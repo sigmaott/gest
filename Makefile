@@ -12,6 +12,6 @@ swag: fmt ## Run a controller from your host
 gen_module:
 	@ cookiecutter   https://github.com/gestgo/gest.git --directory template/module  name=$(name) base_path=$(base_path) --no-input --output-dir ./src/module
 init:
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s
 	npm i
-	husky install
- 	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s
+	npx husky install

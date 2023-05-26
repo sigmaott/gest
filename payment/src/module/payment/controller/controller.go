@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"github.com/gestgo/gest/package/core/router"
 	"github.com/gestgo/gest/package/extension/echofx/parser"
 	"github.com/gestgo/gest/package/extension/i18nfx"
 	"github.com/labstack/echo/v4"
@@ -30,22 +29,25 @@ type Controller struct {
 
 type Result struct {
 	fx.Out
-	Controller router.IRouter `group:"echoRouters"`
+	Controller any `group:"echoRouters"`
 }
 
-func NewController(params Params) IUserController {
-	return &Controller{
-		router:      params.Router,
-		logger:      params.Logger,
-		i18nService: params.I18nService,
+func NewController(params Params) Result {
+	return Result{
+		Controller: &Controller{
+			router:      params.Router,
+			logger:      params.Logger,
+			i18nService: params.I18nService,
+		},
 	}
-}
-
-func NewRouter(params Params) Result {
-	c := NewController(params)
-	return Result{Controller: router.NewBaseRouter[IUserController](c)}
 
 }
+
+//func NewRouter(params Params) Result {
+//	c := NewController(params)
+//	return Result{Controller: router.NewBaseRouter[IUserController](c)}
+//
+//}
 
 // @Summary Get a user by ID
 // @Tags payment-intents
