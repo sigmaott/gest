@@ -13,10 +13,27 @@ var configuration *Configuration
 type Configuration struct {
 	Http  config.HostPort
 	Mongo MongoConfig
+	Lago  LagoConfig
+	Kafka KafkaConfig `mapstructure:"kafka"`
 }
+
 type MongoConfig struct {
 	Uri      string `mapstructure:"uri"`
 	Database string `mapstructure:"database"`
+}
+
+type LagoConfig struct {
+	Host           string         `mapstructure:"host"`
+	Port           string         `mapstructure:"port"`
+	ApiKey         string         `mapstructure:"api_key"`
+	BillableMetric BillableMetric `mapstructure:"billable_metric"`
+}
+type BillableMetric struct {
+	SSAIInsertAdsCode string `mapstructure:"ssai_insert_ads_code"`
+}
+type KafkaConfig struct {
+	Urls    []string `yaml:"urls"  mapstructure:"urls"`
+	GroupId string   `mapstructure:"group_id"`
 }
 
 func init() {
