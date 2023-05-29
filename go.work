@@ -8,7 +8,9 @@ use (
 	./package/extension/kafkafx
 	./package/technique/validate
 	./package/technique/mongo
+	./package/technique/health
 	./package/common/mapstructure
+
 	./payment
 	package/extension/httpfx
 )
@@ -21,6 +23,7 @@ replace (
 	github.com/gestgo/gest/package/extension/i18nfx v1.0.0 => ./package/extension/i18nfx
 	github.com/gestgo/gest/package/extension/kafkafx v1.0.0 => ./package/extension/kafkafx
 	github.com/gestgo/gest/package/technique/validate v1.0.0 => ./package/technique/validate
+	github.com/gestgo/gest/technique/health v1.0.0 => ./package/technique/validate
 	github.com/gestgo/gest/package/technique/mongo v1.0.0 => ./package/technique/mongo
 
 )

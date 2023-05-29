@@ -12,16 +12,16 @@ import (
 )
 
 type ISSAIEventService interface {
-	Create(event dto.CreateEvent) error
+	Create(event *dto.CreateEvent) error
 }
 type ssaiEventService struct {
 	ssaiEventRepository repository.IEventRepository
 	logger              *zap.SugaredLogger
 }
 
-func (u *ssaiEventService) Create(event dto.CreateEvent) error {
+func (u *ssaiEventService) Create(event *dto.CreateEvent) error {
 	log.Print(config.GetConfiguration().Lago.BillableMetric)
-	model := model.SSAIAdsInsertProperties{TotalAdsInsert: event.Total}
+	model := model.SSAIAdsInsertProperties{TotalAdsInsert: event.TotalAdsInsert}
 	err := u.ssaiEventRepository.CreateEvent(config.GetConfiguration().Lago.BillableMetric.SSAIInsertAdsCode, model.StructToMap(), event.AppId)
 	if err != nil {
 		return err

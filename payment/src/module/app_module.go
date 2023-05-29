@@ -14,7 +14,6 @@ import (
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
-	"github.com/segmentio/kafka-go"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.uber.org/fx"
@@ -22,7 +21,6 @@ import (
 	"payment/config"
 	event_metric "payment/src/module/event-metric"
 	"payment/src/module/health"
-	"time"
 )
 
 func getCurrentDir() string {
@@ -120,38 +118,10 @@ func NewApp() *fx.App {
 		fx.Invoke(EnableLogRequest),
 		fx.Invoke(EnableErrorHandler),
 		fx.Invoke(EnableNotFound),
-		fx.Invoke(EnableSwagger),
+		//fx.Invoke(EnableSwagger),
 		fx.Invoke(EnableLogRouter),
 		fx.Invoke(func(*echo.Echo) {}),
 		fx.Invoke(func(*kafkafx.KafkaSubscriber) {}),
 	)
 
-}
-
-func NewKafkaReadClient(kafkaBrokerUrls []string, groupId string, clientId string, topic string) (w *kafka.Reader, err error) {
-	dialer := &kafka.Dialer{
-		ClientID:        clientId,
-		Timeout:         10 * time.Second,
-		Deadline:        time.Time{},
-		LocalAddr:       nil,
-		DualStack:       false,
-		FallbackDelay:   0,
-		KeepAlive:       0,
-		Resolver:        nil,
-		TLS:             nil,
-		SASLMechanism:   nil,
-		TransactionalID: "",
-	}
-
-	config := kafka.ReaderConfig{
-		GroupID:     groupId,
-		GroupTopics: nil,
-		Brokers:     kafkaBrokerUrls,
-		Topic:       topic,
-		Dialer:      dialer,
-	}
-
-	w = kafka.NewReader(config)
-
-	return w, nil
 }

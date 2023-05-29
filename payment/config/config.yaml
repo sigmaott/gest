@@ -10,8 +10,6 @@ lago:
     ssai_insert_ads_code: test_ssai_insert_ads
 kafka:
   urls:
-    - 172.16.10.150:9092
-    - 172.16.10.151:9092
-    - 172.16.10.152:9092
+    - 127.0.0.1:9092
   group_id: test
 

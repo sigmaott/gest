@@ -14,8 +14,6 @@ import (
 	"log"
 	"net/http"
 	"payment/config"
-	"payment/docs"
-	"payment/src/echoSwagger"
 	"time"
 )
 
@@ -26,12 +24,12 @@ func EnableLogRequest(e *echo.Group) {
 
 }
 
-func EnableSwagger(e *echo.Group, logger *zap.SugaredLogger) {
-	docs.SwaggerInfo.BasePath = config.GetConfiguration().Http.BasePath
-	logger.Infof("swagger: http://0.0.0.0:%v%s/api-docs", config.GetConfiguration().Http.Port, config.GetConfiguration().Http.BasePath)
-	//swaggerHandler := echoSwagger.EchoWrapHandler(echoSwagger.URL(swaggerURL))
-	e.GET("/*", echoSwagger.WrapHandler)
-}
+//func EnableSwagger(e *echo.Group, logger *zap.SugaredLogger) {
+//	docs.SwaggerInfo.BasePath = config.GetConfiguration().Http.BasePath
+//	logger.Infof("swagger: http://0.0.0.0:%v%s/api-docs", config.GetConfiguration().Http.Port, config.GetConfiguration().Http.BasePath)
+//	//swaggerHandler := echoSwagger.EchoWrapHandler(echoSwagger.URL(swaggerURL))
+//	e.GET("/*", echoSwagger.WrapHandler)
+//}
 
 func EnableErrorHandler(e *echo.Echo, i18nValidate *I18nValidate) {
 	echoExceptionFilter := errorGest.NewEchoExceptionFilter(BadRequestErrorFilter, i18nValidate.ValidateErrorFilter, InternalServerErrorFilter)

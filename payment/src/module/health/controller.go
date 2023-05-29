@@ -1,7 +1,6 @@
 package health
 
 import (
-	"github.com/gestgo/gest/package/core/router"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
@@ -35,18 +34,20 @@ func (h *Controller) Health() {
 
 type Result struct {
 	fx.Out
-	Controller router.IRouter `group:"echoRouters"`
+	Controller any `group:"echoRouters"`
 }
 
-func NewHealthController(params Params) IHealthController {
-	return &Controller{
-		router:  params.Router,
-		logger:  params.Logger,
-		service: params.Service,
+func NewHealthController(params Params) Result {
+	return Result{
+		Controller: &Controller{
+			router:  params.Router,
+			logger:  params.Logger,
+			service: params.Service,
+		},
 	}
 }
 
-func NewHealthRouter(params Params) Result {
-	c := NewHealthController(params)
-	return Result{Controller: router.NewBaseRouter[IHealthController](c)}
-}
+//func NewHealthRouter(params Params) Result {
+//	c := NewHealthController(params)
+//	return Result{Controller: router.NewBaseRouter[IHealthController](c)}
+//}

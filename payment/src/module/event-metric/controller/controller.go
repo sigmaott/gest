@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"encoding/json"
 	"github.com/gestgo/gest/package/extension/kafkafx"
 	"github.com/google/uuid"
 	"github.com/segmentio/kafka-go"
@@ -9,6 +10,7 @@ import (
 	"go.uber.org/zap"
 	"log"
 	config2 "payment/config"
+	"payment/src/module/event-metric/dto"
 	"payment/src/module/event-metric/service"
 	"time"
 )
@@ -62,41 +64,52 @@ func (b *Controller) FindAll() {
 		TransactionalID: "",
 	}
 
-	config := kafka.ReaderConfig{
-		Brokers:                config2.GetConfiguration().Kafka.Urls,
-		GroupID:                config2.GetConfiguration().Kafka.GroupId,
-		GroupTopics:            nil,
-		Topic:                  "monitor_event",
-		Partition:              0,
-		Dialer:                 dialer,
-		QueueCapacity:          0,
-		MinBytes:               0,
-		MaxBytes:               0,
-		MaxWait:                0,
-		ReadBatchTimeout:       0,
-		ReadLagInterval:        0,
-		GroupBalancers:         nil,
-		HeartbeatInterval:      0,
-		CommitInterval:         0,
-		PartitionWatchInterval: 0,
-		WatchPartitionChanges:  false,
-		SessionTimeout:         0,
-		RebalanceTimeout:       0,
-		JoinGroupBackoff:       0,
-		RetentionTime:          0,
-		StartOffset:            0,
-		ReadBackoffMin:         0,
-		ReadBackoffMax:         0,
-		Logger:                 nil,
-		ErrorLogger:            nil,
-		IsolationLevel:         0,
-		MaxAttempts:            0,
-		OffsetOutOfRangeError:  false,
+	config := kafkafx.ReaderConfig{
+		ReaderConfig: kafka.ReaderConfig{
+			Brokers:                config2.GetConfiguration().Kafka.Urls,
+			GroupID:                config2.GetConfiguration().Kafka.GroupId,
+			GroupTopics:            nil,
+			Topic:                  "my_topic",
+			Partition:              0,
+			Dialer:                 dialer,
+			QueueCapacity:          0,
+			MinBytes:               0,
+			MaxBytes:               0,
+			MaxWait:                0,
+			ReadBatchTimeout:       0,
+			ReadLagInterval:        0,
+			GroupBalancers:         nil,
+			HeartbeatInterval:      0,
+			CommitInterval:         0,
+			PartitionWatchInterval: 0,
+			WatchPartitionChanges:  false,
+			SessionTimeout:         0,
+			RebalanceTimeout:       0,
+			JoinGroupBackoff:       0,
+			RetentionTime:          0,
+			StartOffset:            0,
+			ReadBackoffMin:         0,
+			ReadBackoffMax:         0,
+			Logger:                 nil,
+			ErrorLogger:            nil,
+			IsolationLevel:         0,
+			MaxAttempts:            0,
+			OffsetOutOfRangeError:  false,
+		},
+		Ack: true,
 	}
 
 	b.kafkaSubscriber.Subscribe(context.TODO(), config, func(message kafka.Message) error {
 		log.Printf("%+v", message)
-		return nil
+		payload := new(dto.CreateEvent)
+		if err := json.Unmarshal(message.Value, payload); err != nil {
+			log.Print(err)
+		}
+		log.Printf("%+v", payload)
+		err := b.service.Create(payload)
+
+		log.Printf("%+v", err)
+		return err
 	}, func(err error) error {
 		log.Print(err)
 		return err

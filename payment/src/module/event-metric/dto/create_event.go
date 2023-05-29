@@ -1,6 +1,6 @@
 package dto
 
 type CreateEvent struct {
-	Total int64
-	AppId string
+	TotalAdsInsert int64  `json:"total_ads_insert"`
+	AppId          string `json:"app_id"`
 }

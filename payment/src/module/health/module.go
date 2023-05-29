@@ -7,7 +7,7 @@ import (
 func Module() fx.Option {
 	return fx.Module("health",
 		fx.Provide(
-			NewHealthRouter,
+			NewHealthController,
 			NewHeathCheckService,
 		),
 	)
