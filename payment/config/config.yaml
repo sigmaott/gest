@@ -2,6 +2,14 @@ http:
   port: 8082
   host: 0.0.0.0
   base_path: "/api/i18n"
-mongo:
-  uri:
-  database:
+lago:
+  host: 192.168.3.127
+  port: 3000
+  api_key: c6c3f4ce-1ca8-4e88-9194-f3121a6bfd7d
+  billable_metric:
+    ssai_insert_ads_code: test_ssai_insert_ads
+kafka:
+  urls:
+    - 127.0.0.1:9092
+  group_id: test
+

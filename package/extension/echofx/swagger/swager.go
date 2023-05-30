@@ -1,4 +1,4 @@
-package echoSwagger
+package swagger
 
 import (
 	"html/template"
@@ -97,7 +97,7 @@ func OAuth(config *OAuthConfig) func(*Config) {
 
 func newConfig(configFns ...func(*Config)) *Config {
 	config := Config{
-		URL:                  "doc.json",
+		URL:                  "api-docs-json",
 		DocExpansion:         "list",
 		DomID:                "swagger-ui",
 		InstanceName:         "swagger",
@@ -144,7 +144,7 @@ func EchoWrapHandler(options ...func(*Config)) echo.HandlerFunc {
 			c.Response().Header().Set("Content-Type", "text/css; charset=utf-8")
 		case ".js":
 			c.Response().Header().Set("Content-Type", "application/javascript")
-		case ".json":
+		case "api-docs-json":
 			c.Response().Header().Set("Content-Type", "application/json; charset=utf-8")
 		case ".png":
 			c.Response().Header().Set("Content-Type", "image/png")
@@ -161,7 +161,7 @@ func EchoWrapHandler(options ...func(*Config)) echo.HandlerFunc {
 			_ = c.Redirect(http.StatusMovedPermanently, matches[1]+"/"+"api-docs")
 		case "api-docs":
 			_ = index.Execute(c.Response().Writer, config)
-		case "doc.json":
+		case "api-docs-json":
 			doc, err := swag.ReadDoc(config.InstanceName)
 			if err != nil {
 				c.Error(err)
@@ -186,9 +186,9 @@ const indexTemplate = `<!-- HTML for static distribution bundle build -->
 <head>
   <meta charset="UTF-8">
   <title>Swagger UI</title>
-  <link rel="stylesheet" type="text/css" href="./swagger-ui.css" >
-  <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
+  <link rel="stylesheet" type="text/css" href="./api-docs/swagger-ui.css" >
+  <link rel="icon" type="image/png" href="./api-docs/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="./api-docs/favicon-16x16.png" sizes="16x16" />
   <style>
     html
     {
@@ -248,8 +248,8 @@ const indexTemplate = `<!-- HTML for static distribution bundle build -->
 
 <div id="{{.DomID}}"></div>
 
-<script src="./swagger-ui-bundle.js"> </script>
-<script src="./swagger-ui-standalone-preset.js"> </script>
+<script src="./api-docs/swagger-ui-bundle.js"> </script>
+<script src="./api-docs/swagger-ui-standalone-preset.js"> </script>
 <script>
 window.onload = function() {
   // Build a system

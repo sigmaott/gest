@@ -6,7 +6,9 @@ import (
 	"github.com/gestgo/gest/package/extension/echofx"
 	"github.com/gestgo/gest/package/extension/i18nfx"
 	"github.com/gestgo/gest/package/extension/i18nfx/loader"
+	"github.com/gestgo/gest/package/extension/kafkafx"
 	"github.com/gestgo/gest/package/extension/logfx"
+	"github.com/getlago/lago-go-client"
 	"github.com/go-playground/locales/en"
 	"github.com/go-playground/locales/vi"
 	ut "github.com/go-playground/universal-translator"
@@ -15,10 +17,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.uber.org/fx"
-	"log"
 	"os"
 	"payment/config"
-	"payment/src/module/payment"
+	event_metric "payment/src/module/event-metric"
+	"payment/src/module/health"
 )
 
 func getCurrentDir() string {
@@ -37,22 +39,33 @@ func BasicConnection(ctx context.Context, uri string, databaseName string) (db *
 	}
 	return client.Database(databaseName), err
 }
-func NewMongoConnection() *mongo.Database {
-	database, err := BasicConnection(context.TODO(), config.GetConfiguration().Mongo.Uri, config.GetConfiguration().Mongo.Database)
-	if err != nil {
-		log.Print(err)
-	}
 
-	return database
+//	func NewMongoConnection() *mongo.Database {
+//		database, err := BasicConnection(context.TODO(), config.GetConfiguration().Mongo.Uri, config.GetConfiguration().Mongo.Database)
+//		if err != nil {
+//			log.Print(err)
+//		}
+//
+//		return database
+//	}
+func NewLagoClient() *lago.Client {
+	client := lago.New().
+		SetBaseURL(fmt.Sprintf("http://%s:%s", config.GetConfiguration().Lago.Host, config.GetConfiguration().Lago.Port)).
+		SetDebug(true).
+		SetApiKey(config.GetConfiguration().Lago.ApiKey)
+	return client
 }
-
 func NewApp() *fx.App {
 
 	return fx.New(
 		fx.Provide(
-			func() *mongo.Database {
-				return NewMongoConnection()
-			},
+
+			fx.Annotate(
+				func() *kafkafx.KafkaSubscriber {
+					return &kafkafx.KafkaSubscriber{}
+				},
+				fx.ResultTags(`name:"platformKafka"`)),
+			NewLagoClient,
 			fx.Annotate(
 				echo.New,
 				fx.ResultTags(`name:"platformEcho"`)),
@@ -95,17 +108,20 @@ func NewApp() *fx.App {
 			NewI18nValidate,
 		),
 		echofx.Module(),
-		payment.Module(),
+		event_metric.Module(),
 		logfx.Module(),
 		i18nfx.Module(),
+		kafkafx.Module(),
+		health.Module(),
 		fx.Invoke(RegisterValidateTranslations),
 		fx.Invoke(EnableValidationRequest),
 		fx.Invoke(EnableLogRequest),
 		fx.Invoke(EnableErrorHandler),
 		fx.Invoke(EnableNotFound),
-		fx.Invoke(EnableSwagger),
+		//fx.Invoke(EnableSwagger),
 		fx.Invoke(EnableLogRouter),
 		fx.Invoke(func(*echo.Echo) {}),
+		fx.Invoke(func(*kafkafx.KafkaSubscriber) {}),
 	)
 
 }

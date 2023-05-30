@@ -8,7 +8,8 @@ import (
 
 type Params struct {
 	fx.In
-	KafkaTopics []router.IRouter `group:"kafkaTopics"`
+	KafkaSubscriber *KafkaSubscriber `name:"platformKafka"`
+	KafkaTopics     []any            `group:"kafkaTopics"`
 }
 
 func RegisterKafkaHooks(
@@ -30,7 +31,7 @@ func RegisterKafkaHooks(
 
 			},
 		})
-	return &KafkaSubscriber{}
+	return params.KafkaSubscriber
 
 }
 
