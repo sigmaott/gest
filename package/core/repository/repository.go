@@ -9,6 +9,13 @@ type Paginate struct {
 	Limit  int64
 }
 
+type PaginateResponse[T any] struct {
+	Page    int64 `json:"page"`
+	PerPage int64 `json:"perPage"`
+	Data    []*T  `json:"data"`
+	Total   int64 `json:"total"`
+}
+
 const (
 	DESC = "desc"
 	ASC  = "asc"
@@ -25,4 +32,5 @@ type IRepository[T any] interface {
 	DeleteMany(ctx context.Context, query any) (err error)
 	Count(ctx context.Context, query any) (count int64, err error)
 	FindAll(ctx context.Context, query any, paginate *Paginate, sort *Sort) (results []*T, err error)
+	Paginate(ctx context.Context, query any, paginate *Paginate, sort *Sort) (results *PaginateResponse[T], err error)
 }

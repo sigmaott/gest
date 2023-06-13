@@ -12,6 +12,8 @@ type RabbitmqSubscriber struct {
 }
 type QueueConfig struct {
 	Name                                string
+	Exchange                            string
+	RoutingKey                          string
 	Consumer                            string
 	AutoAck, Exclusive, NoLocal, noWait bool
 	Args                                map[string]any
@@ -23,6 +25,27 @@ func (r *RabbitmqSubscriber) Subscribe(ctx context.Context, config QueueConfig, 
 		handlerErr(err)
 	}
 	var a = &QueueConfig{}
+	_, err = ch.QueueDeclare(
+		config.Name, // name of the queue
+		true,        // durable
+		false,       // delete when unused
+		false,       // exclusive
+		false,       // noWait
+		nil,         // arguments
+	)
+	if err != nil {
+		handlerErr(err)
+	}
+
+	if err = ch.QueueBind(
+		config.Name,       // name of the queue
+		config.RoutingKey, // bindingKey
+		config.Exchange,   // sourceExchange
+		false,             // noWait
+		nil,               // arguments
+	); err != nil {
+		handlerErr(err)
+	}
 	msgs, err := ch.Consume(
 		config.Name,      // queue
 		config.Consumer,  // consumer

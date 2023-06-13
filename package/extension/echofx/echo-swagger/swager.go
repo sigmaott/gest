@@ -1,4 +1,4 @@
-package swagger
+package echo_swagger
 
 import (
 	"html/template"

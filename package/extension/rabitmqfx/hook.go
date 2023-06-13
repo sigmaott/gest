@@ -9,14 +9,14 @@ import (
 
 type Params struct {
 	fx.In
-	PlatformRabbitmqMQ *amqp.Connection
-	RabbitQueues       []router.IRouter `group:"rabbitQueues"`
+	PlatformRabbitmqMQ *amqp.Connection `name:"platformRabbitMQ"`
+	RabbitQueues       []any            `group:"rabbitQueues"`
 }
 
 func RegisterRabbitmqHooks(
 	lifecycle fx.Lifecycle,
 	params Params,
-) *RabbitmqSubscriber {
+) *amqp.Connection {
 
 	platformRabbitmqMQ := params.PlatformRabbitmqMQ
 	lifecycle.Append(
@@ -33,13 +33,19 @@ func RegisterRabbitmqHooks(
 
 			},
 		})
-	return &RabbitmqSubscriber{
-		Conn: platformRabbitmqMQ,
-	}
+	return platformRabbitmqMQ
 
 }
 
-type Result struct {
-	fx.Out
-	Channel router.IRouter `group:"redisChannels"`
+type ParamsNewRabbitmqSubscriber struct {
+	fx.In
+	PlatformRabbitmqMQ *amqp.Connection `name:"platformRabbitMQ"`
+}
+
+func NewRabbitmqSubscriber(params ParamsNewRabbitmqSubscriber) *RabbitmqSubscriber {
+
+	return &RabbitmqSubscriber{
+		Conn: params.PlatformRabbitmqMQ,
+	}
+
 }

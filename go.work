@@ -1,18 +1,24 @@
 go 1.19
 use (
-	./package/core
-	./package/common/config
-	./package/extension/echofx
-	./package/extension/logfx
-	./package/extension/i18nfx
-	./package/extension/kafkafx
-	./package/technique/validate
-	./package/technique/mongo
-	./package/technique/health
-	./package/common/mapstructure
+	package/core
+
+	package/common/config
+
+	package/extension/echofx
+	package/extension/logfx
+	package/extension/i18nfx
+	package/extension/kafkafx
+	package/extension/httpfx
+    package/extension/mongofx
+    package/extension/httpfx
+
+	package/technique/validate
+	package/technique/mongo
+	package/technique/health
+	package/common/mapstructure
 
 	./payment
-	package/extension/httpfx
+ff
 )
 replace (
     github.com/gestgo/gest/package/core v1.0.0 => ./package/core

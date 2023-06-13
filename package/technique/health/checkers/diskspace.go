@@ -16,7 +16,7 @@ type diskspace struct {
 	statfs    func(string, *syscall.Statfs_t) error
 }
 
-//Check test if the filesystem disk usage is above threshold
+// Check test if the filesystem disk usage is above threshold
 func (ds *diskspace) Check(ctx context.Context) error {
 	if _, err := os.Stat(ds.dir); err != nil {
 		return fmt.Errorf("filesystem not found: %v", err)

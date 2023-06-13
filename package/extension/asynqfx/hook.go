@@ -10,20 +10,26 @@ import (
 
 type Params struct {
 	fx.In
-	Server *asynq.Server
-	Jobs   []router.IRouter `group:"asyncJobs"`
+	Server   *asynq.Server
+	Jobs     []any `group:"asynqJobs"`
+	ServeMux *asynq.ServeMux
+}
+
+type AsynqHook struct {
 }
 
 func RegisterAsynqHooks(
 	lifecycle fx.Lifecycle,
 	params Params,
-) {
+) Result {
 	lifecycle.Append(
 		fx.Hook{
 			OnStart: func(context.Context) error {
 
-				router.InitRouter(params.Jobs)
-				mux := asynq.NewServeMux()
+				go func() {
+					router.InitRouter(params.Jobs)
+				}()
+				mux := params.ServeMux
 				go func() error {
 					if err := params.Server.Run(mux); err != nil {
 						log.Fatalf("could not run server: %v", err)
@@ -38,4 +44,12 @@ func RegisterAsynqHooks(
 			},
 		},
 	)
+	return Result{
+		AsynqHook: &AsynqHook{},
+	}
+}
+
+type Result struct {
+	fx.Out
+	AsynqHook *AsynqHook
 }

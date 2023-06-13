@@ -9,7 +9,7 @@ import (
 func Module() fx.Option {
 	return fx.Module("httpfx", fx.Provide(resty.New))
 }
-func ParserData[T any](res *resty.Response) (*T, error) {
+func ParserResponseJson[T any](res *resty.Response) (*T, error) {
 	data := new(T)
 	err := json.NewDecoder(res.RawBody()).Decode(data)
 	if err != nil {

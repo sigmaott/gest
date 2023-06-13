@@ -3,10 +3,12 @@ package query_builder
 import (
 	"errors"
 	"fmt"
+	"github.com/gestgo/gest/package/core/repository"
 	"github.com/samber/lo"
 	"go.mongodb.org/mongo-driver/bson"
 	"log"
 	"reflect"
+	"strconv"
 	"strings"
 )
 
@@ -32,7 +34,7 @@ var operatorSorts = map[string]string{
 	"desc": "desc",
 }
 
-func MongoParserQuery[T any](query map[string][]string) (bson.M, map[string]string, error) {
+func MongoParserQuery[T any](query map[string][]string) (bson.M, map[string]string, *repository.Paginate, error) {
 
 	const FILTER = "filter"
 	queryDb := map[string][]string{}
@@ -54,14 +56,14 @@ func MongoParserQuery[T any](query map[string][]string) (bson.M, map[string]stri
 
 			pathStruct, err := getPathByTag(key, "bson", configValue, "")
 			if err != nil {
-				return nil, nil, err
+				return nil, nil, nil, err
 			}
 			err = validate(objectModel, pathStruct, "sortable", key)
 			if err != nil {
-				return nil, nil, err
+				return nil, nil, nil, err
 			}
 			if err != nil {
-				return nil, nil, err
+				return nil, nil, nil, err
 			}
 			sort[key] = operator
 
@@ -73,11 +75,11 @@ func MongoParserQuery[T any](query map[string][]string) (bson.M, map[string]stri
 	for key, val := range queryDb {
 		pathStruct, err := getPathByTag(key, "bson", configValue, "")
 		if err != nil {
-			return nil, nil, err
+			return nil, nil, nil, err
 		}
 		err = validate(objectModel, pathStruct, "filterable", key)
 		if err != nil {
-			return nil, nil, err
+			return nil, nil, nil, err
 		}
 		if len(val) == 1 {
 			filter[key] = val[0]
@@ -94,7 +96,11 @@ func MongoParserQuery[T any](query map[string][]string) (bson.M, map[string]stri
 		}
 
 	}
-	return filter, sort, nil
+	paginate, err := parsePaginate(query)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+	return filter, sort, paginate, nil
 
 }
 
@@ -154,4 +160,33 @@ func parseSortExpression(expression string) (key string, value string, err error
 
 	}
 	return "", "", NewValidateError(errors.New(fmt.Sprintf("sort %s is invaldate", expression)))
+}
+
+func parsePaginate(query map[string][]string) (*repository.Paginate, error) {
+	paginate := new(repository.Paginate)
+	perPageQueries, ok := query["perPage"]
+	if ok && len(perPageQueries) > 0 {
+		perPageQueryStr := perPageQueries[0]
+		perPage, err := strconv.ParseInt(perPageQueryStr, 10, 0)
+		if err != nil {
+			return nil, err
+		}
+		paginate.Limit = perPage
+
+	}
+	pageQueries, ok := query["page"]
+	if ok && len(pageQueries) > 0 {
+		pageQueryStr := pageQueries[0]
+		page, err := strconv.ParseInt(pageQueryStr, 10, 0)
+		if err != nil {
+			return nil, err
+		}
+		if page <= 0 {
+			page = 1
+		}
+		paginate.Offset = (page - 1) * paginate.Limit
+
+	}
+	return paginate, nil
+
 }

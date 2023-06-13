@@ -20,6 +20,7 @@ func NewUniversalTranslator(
 	enc := en.New()
 	uTranslators := ut.New(enc)
 	AddTranslators(uTranslators, params.Translators)
+
 	LoadTranslate(params, uTranslators)
 	return Result{
 		UniversalTranslator: uTranslators,
@@ -43,6 +44,7 @@ func AddTranslators(uTranslators *ut.UniversalTranslator, translators []locales.
 func LoadTranslate(params I18nParams, uTranslators *ut.UniversalTranslator) {
 	translators := params.Translators
 	data := params.Loader.LoadData()
+
 	for _, trans := range translators {
 
 		if val, ok := data[trans.Locale()]; ok {

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"path/filepath"
 )
 
@@ -42,6 +43,7 @@ func (i *I18nJsonLoader) loadTranslations(path string) error {
 	}
 
 	for _, file := range files {
+		log.Printf("json: %s", file)
 		data, err := ioutil.ReadFile(file)
 		if err != nil {
 			return err
@@ -51,6 +53,7 @@ func (i *I18nJsonLoader) loadTranslations(path string) error {
 		if err := json.Unmarshal(data, &trans); err != nil {
 			return err
 		}
+		log.Printf("json: %s", data)
 		fileExt := filepath.Ext(file)
 		fileName := filepath.Base(file)
 		translations[fileName[0:len(fileName)-len(fileExt)]] = trans
