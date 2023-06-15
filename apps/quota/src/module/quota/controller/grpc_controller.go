@@ -18,6 +18,27 @@ type quotaGrpcController struct {
 	service service.IQuotaService
 }
 
+func (q *quotaGrpcController) GetQuotas(ctx context.Context, request *pb.GetQuotasRequest) (*pb.GetQuotasResponse, error) {
+	res, err := q.service.GetQuotaGroup(request.QuotaGroups)
+	if err != nil {
+		return nil, err
+	}
+	quotaGroups := lo.Map(res, func(x *model.GroupQuota, _ int) *pb.QuotaGroup {
+		return &pb.QuotaGroup{
+			QuotaGroup: x.Name,
+			Quotas: lo.MapValues(x.Quotas, func(item model.Quota, _ string) *pb.Quota {
+				return &pb.Quota{
+					Resource: item.Resource,
+					Hard:     item.Hard,
+				}
+			}),
+		}
+	})
+	return &pb.GetQuotasResponse{
+		QuotaGroups: quotaGroups,
+	}, nil
+}
+
 func (q *quotaGrpcController) GetQuotaByAppId(ctx context.Context, request *pb.GetQuotaByAppIdRequest) (*pb.GetQuotaByAppIdResponse, error) {
 	res, err := q.service.GetAppQuota(request.AppId)
 	if err != nil {

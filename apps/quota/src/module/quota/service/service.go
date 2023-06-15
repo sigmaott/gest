@@ -12,6 +12,7 @@ import (
 )
 
 type IQuotaService interface {
+	GetQuotaGroup(groupName []string) ([]*model.GroupQuota, error)
 	GetAppQuota(appId string) (*model.AppQuota, error)
 	GetResourceAppQuota(appId string, resource string) (*model.Quota, error)
 	UpsertAppQuota(appId string, groupQuotaName string) error
@@ -20,6 +21,10 @@ type quotaService struct {
 	baseQuotaRepository repository.BaseQuotaRepository
 	appQuotaRepository  repository.IAppQuotaRepository
 	logger              *zap.SugaredLogger
+}
+
+func (q *quotaService) GetQuotaGroup(groupNames []string) ([]*model.GroupQuota, error) {
+	return q.baseQuotaRepository.GetListBaseQuota(groupNames)
 }
 
 func (q *quotaService) GetResourceAppQuota(appId string, resource string) (*model.Quota, error) {

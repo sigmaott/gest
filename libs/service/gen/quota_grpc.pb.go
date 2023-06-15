@@ -19,6 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
+	QuotaService_GetQuotas_FullMethodName               = "/sigma.gviet.srv.quota.QuotaService/GetQuotas"
 	QuotaService_GetQuotaByAppId_FullMethodName         = "/sigma.gviet.srv.quota.QuotaService/GetQuotaByAppId"
 	QuotaService_GetQuotaResourceByAppId_FullMethodName = "/sigma.gviet.srv.quota.QuotaService/GetQuotaResourceByAppId"
 	QuotaService_UpsertQuotaByAppId_FullMethodName      = "/sigma.gviet.srv.quota.QuotaService/UpsertQuotaByAppId"
@@ -28,6 +29,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type QuotaServiceClient interface {
+	GetQuotas(ctx context.Context, in *GetQuotasRequest, opts ...grpc.CallOption) (*GetQuotasResponse, error)
 	GetQuotaByAppId(ctx context.Context, in *GetQuotaByAppIdRequest, opts ...grpc.CallOption) (*GetQuotaByAppIdResponse, error)
 	GetQuotaResourceByAppId(ctx context.Context, in *GetQuotaResourceByAppIdRequest, opts ...grpc.CallOption) (*GetQuotaResourceByAppIdResponse, error)
 	UpsertQuotaByAppId(ctx context.Context, in *UpsertQuotaByAppIdRequest, opts ...grpc.CallOption) (*UpsertQuotaByAppIdResponse, error)
@@ -39,6 +41,15 @@ type quotaServiceClient struct {
 
 func NewQuotaServiceClient(cc grpc.ClientConnInterface) QuotaServiceClient {
 	return &quotaServiceClient{cc}
+}
+
+func (c *quotaServiceClient) GetQuotas(ctx context.Context, in *GetQuotasRequest, opts ...grpc.CallOption) (*GetQuotasResponse, error) {
+	out := new(GetQuotasResponse)
+	err := c.cc.Invoke(ctx, QuotaService_GetQuotas_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *quotaServiceClient) GetQuotaByAppId(ctx context.Context, in *GetQuotaByAppIdRequest, opts ...grpc.CallOption) (*GetQuotaByAppIdResponse, error) {
@@ -72,6 +83,7 @@ func (c *quotaServiceClient) UpsertQuotaByAppId(ctx context.Context, in *UpsertQ
 // All implementations should embed UnimplementedQuotaServiceServer
 // for forward compatibility
 type QuotaServiceServer interface {
+	GetQuotas(context.Context, *GetQuotasRequest) (*GetQuotasResponse, error)
 	GetQuotaByAppId(context.Context, *GetQuotaByAppIdRequest) (*GetQuotaByAppIdResponse, error)
 	GetQuotaResourceByAppId(context.Context, *GetQuotaResourceByAppIdRequest) (*GetQuotaResourceByAppIdResponse, error)
 	UpsertQuotaByAppId(context.Context, *UpsertQuotaByAppIdRequest) (*UpsertQuotaByAppIdResponse, error)
@@ -81,6 +93,9 @@ type QuotaServiceServer interface {
 type UnimplementedQuotaServiceServer struct {
 }
 
+func (UnimplementedQuotaServiceServer) GetQuotas(context.Context, *GetQuotasRequest) (*GetQuotasResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetQuotas not implemented")
+}
 func (UnimplementedQuotaServiceServer) GetQuotaByAppId(context.Context, *GetQuotaByAppIdRequest) (*GetQuotaByAppIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetQuotaByAppId not implemented")
 }
@@ -100,6 +115,24 @@ type UnsafeQuotaServiceServer interface {
 
 func RegisterQuotaServiceServer(s grpc.ServiceRegistrar, srv QuotaServiceServer) {
 	s.RegisterService(&QuotaService_ServiceDesc, srv)
+}
+
+func _QuotaService_GetQuotas_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetQuotasRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QuotaServiceServer).GetQuotas(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: QuotaService_GetQuotas_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QuotaServiceServer).GetQuotas(ctx, req.(*GetQuotasRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _QuotaService_GetQuotaByAppId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -163,6 +196,10 @@ var QuotaService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "sigma.gviet.srv.quota.QuotaService",
 	HandlerType: (*QuotaServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetQuotas",
+			Handler:    _QuotaService_GetQuotas_Handler,
+		},
 		{
 			MethodName: "GetQuotaByAppId",
 			Handler:    _QuotaService_GetQuotaByAppId_Handler,

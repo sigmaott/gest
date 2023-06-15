@@ -5,13 +5,24 @@ package sigma.gviet.srv.quota;
 option go_package = "sigma-streaming/quota";
 
 service QuotaService {
-  rpc GetQuotas (GetQuotaByAppIdRequest) returns (GetQuotaByAppIdResponse) {}
+  rpc GetQuotas(GetQuotasRequest) returns (GetQuotasResponse) {}
   rpc GetQuotaByAppId (GetQuotaByAppIdRequest) returns (GetQuotaByAppIdResponse) {}
   rpc GetQuotaResourceByAppId (GetQuotaResourceByAppIdRequest) returns (GetQuotaResourceByAppIdResponse) {}
   rpc UpsertQuotaByAppId (UpsertQuotaByAppIdRequest) returns (UpsertQuotaByAppIdResponse) {}
 
 };
+message GetQuotasRequest {
+  repeated string quotaGroups = 1;
+}
 
+message GetQuotasResponse {
+  repeated QuotaGroup QuotaGroups  = 1;
+}
+message QuotaGroup{
+  string quotaGroup=1;
+  map<string, Quota> quotas = 2;
+
+}
 message GetQuotaByAppIdRequest {
   string appId = 1;
 }
