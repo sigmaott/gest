@@ -10,16 +10,19 @@ use (
 	package/extension/kafkafx
 	package/extension/httpfx
     package/extension/mongofx
+	package/extension/asynqfx
+	package/extension/grpcfx
 
 	package/technique/validate
 	package/technique/mongo
 	package/technique/health
 	package/common/mapstructure
 
-	./apps/quota
-	package/extension/asynqfx
+	./apps/usage-monitor
+
 	libs/service
-	package/extension/grpcfx
+	package/technique/cache
+
 
 )
 replace (

@@ -9,9 +9,9 @@ import (
 	"github.com/samber/lo"
 	"go.uber.org/fx"
 	"net/http"
-	validateMessage "quota/locales/validate-message"
 	"strings"
 	"time"
+	validateMessage "usage-monnitor/locales/validate-message"
 )
 
 type I18nValidate struct {

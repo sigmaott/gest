@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package sigma.gviet.srv.quota;
 
-option go_package = "sigma-streaming/quota";
+option go_package = "sigma-streaming/service";
 
 service QuotaService {
   rpc GetQuotas(GetQuotasRequest) returns (GetQuotasResponse) {}

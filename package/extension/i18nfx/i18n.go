@@ -80,9 +80,7 @@ func NewI18nService(params Params) II18nService {
 		i18n: params.I18n,
 	}
 }
-func Module() fx.Option {
-	return fx.Module("i18nfx", fx.Provide(NewUniversalTranslator, NewI18nService))
-}
+
 func StringToPluralRule(s string) locales.PluralRule {
 	switch s {
 	case "Unknown":

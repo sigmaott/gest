@@ -10,7 +10,7 @@ import (
 	pb "sigma-streaming/service/gen"
 )
 
-type IQuotaGrpcController interface {
+type ISSAIUsageMonitorGrpcController interface {
 	grpcfx.IGrpcController
 	pb.QuotaServiceServer
 }

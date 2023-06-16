@@ -1,4 +1,4 @@
-package quota
+package usage
 
 import (
 	"github.com/gestgo/gest/package/extension/grpcfx"
