@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package sigma.gviet.srv.quota;
+
+option go_package = "sigma-streaming/quota";
+
+service QuotaService {
+  rpc GetQuotas(GetQuotasRequest) returns (GetQuotasResponse) {}
+  rpc GetQuotaByAppId (GetQuotaByAppIdRequest) returns (GetQuotaByAppIdResponse) {}
+  rpc GetQuotaResourceByAppId (GetQuotaResourceByAppIdRequest) returns (GetQuotaResourceByAppIdResponse) {}
+  rpc UpsertQuotaByAppId (UpsertQuotaByAppIdRequest) returns (UpsertQuotaByAppIdResponse) {}
+
+};
+message GetQuotasRequest {
+  repeated string quotaGroups = 1;
+}
+
+message GetQuotasResponse {
+  repeated QuotaGroup QuotaGroups  = 1;
+}
+message QuotaGroup{
+  string quotaGroup=1;
+  map<string, Quota> quotas = 2;
+
+}
+message GetQuotaByAppIdRequest {
+  string appId = 1;
+}
+message GetQuotaByAppIdResponse {
+  string appId = 1;
+  string quotaGroup=2;
+  map<string, Quota> quotas = 3;
+
+}
+message GetQuotaResourceByAppIdRequest {
+  string appId = 1;
+  string Resource =2;
+}
+message GetQuotaResourceByAppIdResponse {
+  Quota quota =2;
+}
+message UpsertQuotaByAppIdRequest {
+  string appId = 1;
+  string quotaGroup=2;
+
+}
+
+message UpsertQuotaByAppIdResponse {
+  bool success = 1;
+}
+
+message Quota {
+  string resource = 1;
+  double hard = 2;
+}
+

@@ -26,9 +26,8 @@ func RegisterAsynqHooks(
 		fx.Hook{
 			OnStart: func(context.Context) error {
 
-				go func() {
-					router.InitRouter(params.Jobs)
-				}()
+				router.InitRouter(params.Jobs)
+
 				mux := params.ServeMux
 				go func() error {
 					if err := params.Server.Run(mux); err != nil {
