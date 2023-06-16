@@ -3,7 +3,7 @@ http:
   host: 0.0.0.0
   base_path: "/api/i18n"
 mongo:
-  uri: mongodb://sigma_user:JGdjfh@172.16.10.153:27017,172.16.10.154:27017,172.16.10.155:27017/sigma-billing?replicaSet=mongo_rep&w=1&authSource=sigma_db
+  uri:
   database: sigma-billing
 grpc:
   port: 50051
