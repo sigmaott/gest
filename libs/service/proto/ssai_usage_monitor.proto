@@ -9,6 +9,7 @@ service SSAIUsageMonitorService {
 };
 message CheckQuotaRequest {
    string appId = 1;
+   string resource =2;
 }
 
 message CheckQuotaResponse {

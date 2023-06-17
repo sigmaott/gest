@@ -1,11 +1,6 @@
 package model
 
-type Quota struct {
-	Resource string  `yaml:"resource"`
-	Hard     float64 `yaml:"hard"`
-}
-
-type GroupQuota struct {
-	Name   string           `yaml:"name"`
-	Quotas map[string]Quota `yaml:"quotas"`
+type Usage struct {
+	Code  string
+	Usage float64
 }
