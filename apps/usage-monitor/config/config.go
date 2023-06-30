@@ -38,7 +38,7 @@ type KafkaConfig struct {
 }
 
 func init() {
-	configPath := flag.String("c", "./apps/quota/config/config.yaml", "")
+	configPath := flag.String("c", "./apps/usage-monitor/config/config.yaml", "")
 
 	flag.Usage = func() {
 		fmt.Println("Usage: server -e {mode}")

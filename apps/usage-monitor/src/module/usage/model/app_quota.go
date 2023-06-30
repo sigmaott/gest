@@ -8,6 +8,4 @@ type AppQuota struct {
 	GroupQuota string    `json:"groupQuota" bson:"groupQuota"`
 	CreatedAt  time.Time `json:"createdAt" bson:"createdAt"`
 	UpdateAt   time.Time `json:"createdAt" bson:"updateAt"`
-
-	Quotas map[string]Quota `json:"quotas"`
 }

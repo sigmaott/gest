@@ -2,6 +2,8 @@ package main
 
 import (
 	"usage-monnitor/src/module"
+
+	_ "github.com/gestgo/gest/package/technique/version"
 )
 
 // @title Gest Example API
