@@ -1,7 +1,7 @@
 package main
 
 import (
-	"quota/src/module"
+	"usage-monnitor/src/module"
 )
 
 // @title Gest Example API

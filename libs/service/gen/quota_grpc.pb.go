@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: quota.proto
 
-package quota
+package service
 
 import (
 	context "context"

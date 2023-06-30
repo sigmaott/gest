@@ -10,16 +10,21 @@ use (
 	package/extension/kafkafx
 	package/extension/httpfx
     package/extension/mongofx
+	package/extension/asynqfx
+	package/extension/grpcfx
 
 	package/technique/validate
 	package/technique/mongo
 	package/technique/health
+	package/technique/version
 	package/common/mapstructure
 
-	./apps/quota
-	package/extension/asynqfx
+	./apps/usage-monitor
+
 	libs/service
-	package/extension/grpcfx
+	package/technique/cache
+	apps/test
+
 
 )
 replace (
@@ -34,5 +39,7 @@ replace (
 	github.com/gestgo/gest/technique/health v1.0.0 => ./package/technique/validate
 	github.com/gestgo/gest/package/technique/mongo v1.0.0 => ./package/technique/mongo
 	sigmaott.com/service v0.0.1 => ./libs/service
+	github.com/gestgo/gest/package/technique/version v1.0.0 => ./package/technique/version
+
 
 )

@@ -11,9 +11,8 @@ import (
 	"github.com/labstack/echo/v4"
 	"go.uber.org/fx"
 	"google.golang.org/grpc"
-	"quota/config"
-	"quota/src/module/health"
-	"quota/src/module/quota"
+	"usage-monnitor/config"
+	"usage-monnitor/src/module/health"
 )
 
 func NewApp() *fx.App {
@@ -31,7 +30,7 @@ func NewApp() *fx.App {
 		mongofx.ForRoot(context.TODO(), config.GetConfiguration().Mongo.Uri, config.GetConfiguration().Mongo.Database),
 		logfx.Module(),
 		i18nfx.Module(),
-		quota.Module(),
+		usage.Module(),
 		health.Module(),
 		fx.Invoke(func(*echo.Echo) {}),
 		fx.Invoke(func(server *grpc.Server) {}),

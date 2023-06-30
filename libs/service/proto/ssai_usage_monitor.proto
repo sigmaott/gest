@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package sigma.gviet.srv.quota;
+
+option go_package = "sigma-streaming/service";
+
+service SSAIUsageMonitorService {
+  rpc CheckQuota(CheckQuotaRequest) returns (CheckQuotaResponse) {}
+};
+message CheckQuotaRequest {
+   string appId = 1;
+   string resource =2;
+}
+
+message CheckQuotaResponse {
+  bool Allow   = 1;
+}
+
+

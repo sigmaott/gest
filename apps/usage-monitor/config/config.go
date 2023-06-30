@@ -3,18 +3,17 @@ package config
 import (
 	"flag"
 	"fmt"
-	"github.com/gestgo/gest/package/common/config"
 	"log"
 	"os"
+
+	"github.com/gestgo/gest/package/common/config"
 )
 
 var configuration *Configuration
 
 type Configuration struct {
-	Http      config.HostPort
-	Mongo     MongoConfig
-	Grpc      config.HostPort `mapstructure:"grpc"`
-	QuotaPath string          `mapstructure:"quota_path"`
+	Http config.HostPort
+	Grpc config.HostPort `mapstructure:"grpc"`
 	//Lago  LagoConfig
 	//Kafka KafkaConfig `mapstructure:"kafka"`
 }
