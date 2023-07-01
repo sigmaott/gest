@@ -1,9 +1,8 @@
-module github.com/gestgo/gest/package/extension/i18nfx
+module github.com/sigmaott/gest/package/extension/i18nfx
 
 go 1.19
 
 require (
-	github.com/gestgo/gest/package/core v0.0.0-20230403173813-e7c1980900b4
 	github.com/go-playground/universal-translator v0.18.1
 	go.uber.org/fx v1.19.2
 )

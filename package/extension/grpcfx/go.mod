@@ -1,4 +1,4 @@
-module github.com/gestgo/gest/package/extension/grpcfx
+module github.com/sigmaott/gest/package/extension/grpcfx
 
 go 1.19
 

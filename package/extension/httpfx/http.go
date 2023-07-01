@@ -2,6 +2,7 @@ package httpfx
 
 import (
 	"encoding/json"
+
 	"github.com/go-resty/resty/v2"
 	"go.uber.org/fx"
 )

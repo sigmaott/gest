@@ -1,4 +1,4 @@
-module query-builder
+module github.com/sigmaott/gest/query-builder
 
 go 1.19
 

@@ -1,9 +1,9 @@
-module github.com/gestgo/gest/package/extension/asynqfx
+module github.com/sigmaott/gest/package/extension/asynqfx
 
 go 1.19
 
 require (
-	github.com/gestgo/gest/package/core v0.0.0-20230403135753-31b553eca266
+	github.com/sigmaott/gest/package/core v0.0.1
 	github.com/hibiken/asynq v0.24.0
 	go.uber.org/fx v1.19.2
 )

@@ -1,9 +1,9 @@
-module github.com/gestgo/gest/package/extension/echofx
+module github.com/sigmaott/gest/package/extension/echofx
 
 go 1.19
 
 require (
-	github.com/gestgo/gest/package/core v0.0.0-20230331135242-1bc85665f5a0
+	github.com/sigmaott/gest/package/core v0.0.1
 	github.com/labstack/echo/v4 v4.10.2
 	github.com/swaggo/files/v2 v2.0.0
 	github.com/swaggo/swag v1.16.1

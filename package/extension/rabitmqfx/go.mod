@@ -1,9 +1,9 @@
-module github.com/gestgo/gest/package/extension/rabitmqfx
+module github.com/sigmaott/gest/package/extension/rabitmqfx
 
 go 1.19
 
 require (
-	github.com/gestgo/gest/package/core v0.0.0-20230403031717-b770b540bf2a
+	github.com/sigmaott/gest/package/core v0.0.1
 	github.com/rabbitmq/amqp091-go v1.8.0
 	go.uber.org/fx v1.19.2
 )

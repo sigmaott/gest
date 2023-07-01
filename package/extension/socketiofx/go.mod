@@ -1,3 +1,3 @@
-module github.com/gestgo/gest/package/extension/socketiofx
+module github.com/sigmaott/gest/package/extension/socketiofx
 
 go 1.19

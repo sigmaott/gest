@@ -1,3 +1,3 @@
-module github.com/gestgo/gest/package/core
+module github.com/sigmaott/gest/package/core
 
 go 1.19

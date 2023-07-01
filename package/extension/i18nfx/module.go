@@ -6,10 +6,6 @@ import (
 	"go.uber.org/fx"
 )
 
-//func Module() fx.Option {
-//	return fx.Module("i18nfx", fx.Provide(NewUniversalTranslator, NewI18nService))
-//}
-
 type I18nModuleParams struct {
 	FallbackLanguage string
 	Loader           loader.II18nLoader
@@ -29,6 +25,12 @@ func ForRoot(params I18nModuleParams) fx.Option {
 				return params.Loader
 			},
 			fx.ResultTags(`name:"i18nLoader"`),
+		)),
+		fx.Provide(fx.Annotate(
+			func() string {
+				return params.FallbackLanguage
+			},
+			fx.ResultTags(`name:"fallbackLanguage"`),
 		)),
 		fx.Provide(newUniversalTranslator, NewI18nService))
 }

@@ -1,4 +1,4 @@
-module github.com/gestgo/gest/package/technique/validate
+module github.com/sigmaott/gest/package/technique/validate
 
 go 1.19
 

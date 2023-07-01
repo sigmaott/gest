@@ -7,21 +7,31 @@ import (
 	"github.com/go-playground/locales"
 	"github.com/go-playground/locales/en"
 	ut "github.com/go-playground/universal-translator"
+	"github.com/samber/lo"
 	"go.uber.org/fx"
 )
 
 type I18nParams struct {
 	fx.In
-	Loader      loader.II18nLoader   `name:"i18nLoader"`
-	Translators []locales.Translator `name:"translators"`
+	Loader           loader.II18nLoader   `name:"i18nLoader"`
+	Translators      []locales.Translator `name:"translators"`
+	FallbackLanguage string               `name:"fallbackLanguage"`
 }
 
 func newUniversalTranslator(
 	params I18nParams,
 ) Result {
-	log.Print(params.Translators)
 	enc := en.New()
-	uTranslators := ut.New(enc)
+
+	fallbackLanguage, ok := lo.Find(params.Translators, func(item locales.Translator) bool {
+		return item.Locale() == params.FallbackLanguage
+	})
+	var uTranslators *ut.UniversalTranslator
+	if !ok {
+		uTranslators = ut.New(enc)
+	} else {
+		uTranslators = ut.New(fallbackLanguage)
+	}
 	err := addTranslators(uTranslators, params.Translators)
 	if err != nil {
 		log.Fatal(err)

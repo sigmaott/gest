@@ -1,4 +1,4 @@
-module github.com/gestgo/gest/package/technique/version
+module github.com/sigmaott/gest/package/technique/version
 
 require (
 	github.com/fatih/color v1.15.0

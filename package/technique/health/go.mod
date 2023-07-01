@@ -1,3 +1,3 @@
-module github.com/gestgo/gest/technique/health
+module github.com/sigmaott/gest/technique/health
 
 go 1.19

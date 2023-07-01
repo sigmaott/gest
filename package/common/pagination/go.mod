@@ -1,3 +1,3 @@
-module github.com/gestgo/gest/package/common/pagination
+module github.com/sigmaott/gest/package/common/pagination
 
 go 1.19

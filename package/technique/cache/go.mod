@@ -1,4 +1,4 @@
-module github.com/gestgo/gest/technique/cache
+module github.com/sigmaott/gest/technique/cache
 
 go 1.19
 

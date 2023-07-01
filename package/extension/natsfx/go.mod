@@ -1,9 +1,9 @@
-module github.com/gestgo/gest/package/extension/natsfx
+module github.com/sigmaott/gest/package/extension/natsfx
 
 go 1.19
 
 require (
-	github.com/gestgo/gest/package/core v0.0.0-20230402165735-b13a96e7ce4d
+	github.com/sigmaott/gest/package/core v0.0.1
 	github.com/nats-io/nats.go v1.25.0
 	go.uber.org/fx v1.19.2
 )
