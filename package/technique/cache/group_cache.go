@@ -28,10 +28,10 @@ func (gc *GroupCache) Set(key string, value interface{}, d time.Duration) {
 	defer gc.mu.Unlock()
 
 	// Use the key as the cache item's string value
-	item := groupcache.StringCacheItem(value.(string))
-
-	// Set the value in the groupcache group
-	gc.group.Set(nil, key, item)
+	//item := groupcache.StringCacheItem(value.(string))
+	//
+	//// Set the value in the groupcache group
+	//gc.group.Set(nil, key, item)
 
 	// Schedule the item for removal after the specified duration
 	time.AfterFunc(d, func() {
@@ -54,7 +54,7 @@ func (gc *GroupCache) Delete(key string) {
 	defer gc.mu.Unlock()
 
 	// Delete the value from the groupcache group
-	gc.group.Delete(nil, key)
+	//gc.group.Delete(nil, key)
 }
 
 func (gc *GroupCache) Clear() {
@@ -62,10 +62,11 @@ func (gc *GroupCache) Clear() {
 	defer gc.mu.Unlock()
 
 	// Clear all values from the groupcache group
-	gc.group.Clear()
+	//gc.group.Clear()
 }
 
 func (gc *GroupCache) Size() int {
 	// Return the number of items in the groupcache group
-	return gc.group.CacheStats().Gets
+	//return gc.group.CacheStats().Gets
+	return 0
 }

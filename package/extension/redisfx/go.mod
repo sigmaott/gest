@@ -1,9 +1,9 @@
-module github.com/gestgo/gest/package/extension/redisfx
+module github.com/sigmaott/gestpackage/extension/redisfx
 
 go 1.19
 
 require (
-	github.com/gestgo/gest/package/core v0.0.0-20230403031717-b770b540bf2a
+	github.com/sigmaott/gest/package/core v0.0.1
 	github.com/redis/go-redis/v9 v9.0.3
 	go.uber.org/fx v1.19.2
 )

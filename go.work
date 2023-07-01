@@ -1,8 +1,40 @@
 go 1.19
 use (
-	./package/core
-	./package/common/config
-	./package/extension/echofx
-	./payment
+	package/core
+
+	package/common/config
+
+	package/extension/echofx
+	package/extension/logfx
+	package/extension/i18nfx
+	package/extension/kafkafx
+	package/extension/httpfx
+    package/extension/mongofx
+	package/extension/asynqfx
+	package/extension/grpcfx
+
+	package/technique/validate
+	package/technique/mongo
+	package/technique/health
+	package/technique/version
+
+
+	package/technique/cache
+	package/common/query-builder
+
+
 )
-replace  github.com/gestgo/gest/package/common/config => ./package/common/config v1.0.0
+replace (
+    github.com/sigmaott/gest/package/core v0.0.1 => ./package/core
+    github.com/sigmaott/gest/package/common/config v0.0.1 => ./package/common/config
+    github.com/sigmaott/gest/package/common/pagination v0.0.1 => ./package/common/pagination
+    github.com/sigmaott/gest/package/extension/echofx v0.0.1 => ./package/extension/echofx
+	github.com/sigmaott/gest/package/extension/logfx v0.0.1  => ./package/extension/logfx
+	github.com/sigmaott/gest/package/extension/i18nfx v0.0.1 => ./package/extension/i18nfx
+	github.com/sigmaott/gest/package/extension/kafkafx v0.0.1 => ./package/extension/kafkafx
+	github.com/sigmaott/gest/package/technique/validate v0.0.1 => ./package/technique/validate
+	github.com/sigmaott/gest/technique/health v0.0.1 => ./package/technique/validate
+	github.com/sigmaott/gest/package/technique/mongo v0.0.1 => ./package/technique/mongo
+	github.com/sigmaott/gest/package/technique/version v0.0.1 => ./package/technique/version
+
+)

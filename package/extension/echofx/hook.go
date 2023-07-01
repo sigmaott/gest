@@ -10,9 +10,9 @@ import (
 
 type Params struct {
 	fx.In
-	PlatformEcho     *echo.Echo       `name:"platformEcho"`
-	PlatformEchoPort int              `name:"platformEchoPort"`
-	Routers          []router.IRouter `group:"echoRouters"`
+	PlatformEcho     *echo.Echo `name:"platformEcho"`
+	PlatformEchoPort int        `name:"platformEchoPort"`
+	Routers          []any      `group:"echoRouters"`
 }
 
 func RegisterEchoHooks(
@@ -40,4 +40,13 @@ func RegisterEchoHooks(
 type Result struct {
 	fx.Out
 	Router router.IRouter `group:"echoRouters"`
+}
+
+func AsRoute(f any, annotation ...fx.Annotation) any {
+	annotation = append(annotation, fx.As(new(any)),
+		fx.ResultTags(`group:"echoRouters"`))
+	return fx.Annotate(
+		f,
+		annotation...,
+	)
 }

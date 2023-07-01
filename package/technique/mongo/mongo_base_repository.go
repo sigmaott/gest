@@ -6,6 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"log"
 )
 
 type BaseMongoRepository[T any] struct {
@@ -31,7 +32,6 @@ func (b *BaseMongoRepository[T]) FindAll(ctx context.Context, query any, paginat
 		}
 		opt.SetSort(sortMongo)
 	}
-
 	cur, err := b.Collection.Find(ctx, query, opt)
 	if err != nil {
 		return nil, err
@@ -113,6 +113,32 @@ func (b *BaseMongoRepository[T]) CreateMany(ctx context.Context, data []any) (er
 func (b *BaseMongoRepository[T]) Count(ctx context.Context, query any) (count int64, err error) {
 	count, err = b.Collection.CountDocuments(ctx, query)
 	return
+}
+
+func (b *BaseMongoRepository[T]) Paginate(ctx context.Context, query any, paginate *repository.Paginate, sort *repository.Sort) (results *repository.PaginateResponse[T], err error) {
+	res := new(repository.PaginateResponse[T])
+	res.Data = []*T{}
+	count, err := b.Count(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	if count == 0 {
+		return res, nil
+	}
+	if paginate.Limit <= 0 {
+		paginate.Limit = 10
+	}
+	data, err := b.FindAll(ctx, query, paginate, sort)
+	if err != nil {
+		return nil, err
+	}
+	log.Print(data, err)
+	res.Page = (paginate.Offset / paginate.Limit) + 1
+	res.PerPage = paginate.Limit
+	res.Data = data
+	res.Total = count
+
+	return res, nil
 }
 
 func NewBaseRepository[T any](db *mongo.Database, collectionName string) repository.IRepository[T] {

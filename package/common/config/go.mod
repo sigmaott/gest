@@ -1,4 +1,4 @@
-module github.com/gestgo/gest/package/common/config
+module github.com/sigmaott/gest/package/common/config
 
 go 1.19
 

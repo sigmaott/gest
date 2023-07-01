@@ -1,12 +1,11 @@
-module github.com/gestgo/gest/package/extension/asynqfx
+module github.com/sigmaott/gest/package/extension/asynqfx
 
 go 1.19
 
 require (
-	github.com/gestgo/gest/package/core v0.0.0-20230403135753-31b553eca266
+	github.com/sigmaott/gest/package/core v0.0.1
 	github.com/hibiken/asynq v0.24.0
 	go.uber.org/fx v1.19.2
-	go.uber.org/zap v1.24.0
 )
 
 require (
@@ -20,6 +19,7 @@ require (
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/dig v1.16.1 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
+	go.uber.org/zap v1.24.0 // indirect
 	golang.org/x/sys v0.0.0-20210903071746-97244b99971b // indirect
 	golang.org/x/time v0.0.0-20190308202827-9d24e82272b4 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect

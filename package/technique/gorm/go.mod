@@ -1,4 +1,4 @@
-module github.com/gestgo/gest/technique/gorm
+module github.com/sigmaott/gest/technique/gorm
 
 go 1.19
 

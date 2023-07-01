@@ -1,9 +1,8 @@
-module github.com/gestgo/gest/technique/mongo
+module github.com/sigmaott/gest/package/technique/mongo
 
 go 1.19
 
 require (
-	github.com/gestgo/gest/package/core v0.0.0-20230331135242-1bc85665f5a0
 	go.mongodb.org/mongo-driver v1.11.3
 )
 

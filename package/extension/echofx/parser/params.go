@@ -21,7 +21,7 @@ func (b *PathParams[T]) Parser(next echo.HandlerFunc) echo.HandlerFunc {
 		err := b.binder.BindPathParams(c, data)
 
 		if err != nil {
-			return c.JSON(400, err)
+			return err
 		}
 		if b.validate {
 			if err = c.Validate(data); err != nil {

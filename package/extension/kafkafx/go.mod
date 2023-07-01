@@ -1,9 +1,9 @@
-module github.com/gestgo/gest/package/extension/kafkafx
+module github.com/sigmaott/gest/package/extension/kafkafx
 
 go 1.19
 
 require (
-	github.com/gestgo/gest/package/core v0.0.0-20230403135753-31b553eca266
+	github.com/sigmaott/gest/package/core v0.0.1
 	github.com/segmentio/kafka-go v0.4.39
 	go.uber.org/fx v1.19.2
 )

@@ -1,3 +1,3 @@
-module github.com/gestgo/gest/package/extension/graphqlfx
+module github.com/sigmaott/gest/package/extension/graphqlfx
 
 go 1.19

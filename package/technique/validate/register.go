@@ -15,7 +15,7 @@ func RegisterTranslations(validate *validator.Validate, trans ut.Translator, bui
 		validate.RegisterTranslation(s, trans, func(ut ut.Translator) error {
 			return ut.Add(s, message, true)
 		}, func(ut ut.Translator, fe validator.FieldError) string {
-			t, _ := ut.T(s, fe.StructNamespace())
+			t, _ := ut.T(s, fe.Namespace())
 			return t
 		})
 	}
@@ -86,14 +86,14 @@ var builtinMessages = map[string]string{
 	"strings": "{field} value must be a []string",
 	"notIn":   "{field} value must not be in the given enum list %d",
 	//
-	"contains":    "{field} value does not contain %s",
-	"notContains": "{field} value contains %s",
-	"startsWith":  "{field} value does not start with %s",
-	"endsWith":    "{field} value does not end with %s",
-	"email":       "{field} value is an invalid email address",
-	"regex":       "{field} value does not pass the regex check",
-	"file":        "{field} value must be a file",
-	"image":       "{field} value must be an image",
+	"contains":     "{field} value does not contain %s",
+	"notContains":  "{field} value contains %s",
+	"startsWith":   "{field} value does not start with %s",
+	"endsWith":     "{field} value does not end with %s",
+	"task_handler": "{field} value is an invalid task_handler address",
+	"regex":        "{field} value does not pass the regex check",
+	"file":         "{field} value must be a file",
+	"image":        "{field} value must be an image",
 	// date
 	"date":    "{field} value should be a date string",
 	"gtDate":  "{field} value should be after %s",

@@ -1,26 +1,43 @@
 package i18nfx
 
 import (
+	"log"
+
 	"github.com/gestgo/gest/package/extension/i18nfx/loader"
 	"github.com/go-playground/locales"
 	"github.com/go-playground/locales/en"
 	ut "github.com/go-playground/universal-translator"
+	"github.com/samber/lo"
 	"go.uber.org/fx"
 )
 
 type I18nParams struct {
 	fx.In
-	Loader      loader.II18nLoader   `name:"i18nLoader"`
-	Translators []locales.Translator `group:"translators"`
+	Loader           loader.II18nLoader   `name:"i18nLoader"`
+	Translators      []locales.Translator `name:"translators"`
+	FallbackLanguage string               `name:"fallbackLanguage"`
 }
 
-func NewUniversalTranslator(
+func newUniversalTranslator(
 	params I18nParams,
 ) Result {
 	enc := en.New()
-	uTranslators := ut.New(enc)
-	AddTranslators(uTranslators, params.Translators)
-	LoadTranslate(params, uTranslators)
+
+	fallbackLanguage, ok := lo.Find(params.Translators, func(item locales.Translator) bool {
+		return item.Locale() == params.FallbackLanguage
+	})
+	var uTranslators *ut.UniversalTranslator
+	if !ok {
+		uTranslators = ut.New(enc)
+	} else {
+		uTranslators = ut.New(fallbackLanguage)
+	}
+	err := addTranslators(uTranslators, params.Translators)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	uTranslators = loadTranslate(params, uTranslators)
 	return Result{
 		UniversalTranslator: uTranslators,
 	}
@@ -31,18 +48,20 @@ type Result struct {
 	UniversalTranslator *ut.UniversalTranslator `name:"universalTranslator"`
 }
 
-func AddTranslators(uTranslators *ut.UniversalTranslator, translators []locales.Translator) {
+func addTranslators(uTranslators *ut.UniversalTranslator, translators []locales.Translator) error {
 	for _, translator := range translators {
 		err := uTranslators.AddTranslator(translator, true)
 		if err != nil {
-			return
+			return err
 		}
 	}
+	return nil
 
 }
-func LoadTranslate(params I18nParams, uTranslators *ut.UniversalTranslator) {
+func loadTranslate(params I18nParams, uTranslators *ut.UniversalTranslator) *ut.UniversalTranslator {
 	translators := params.Translators
 	data := params.Loader.LoadData()
+
 	for _, trans := range translators {
 
 		if val, ok := data[trans.Locale()]; ok {
@@ -73,7 +92,7 @@ func LoadTranslate(params I18nParams, uTranslators *ut.UniversalTranslator) {
 				default:
 					err := transLocale.Add(translation.Key, translation.Trans, false)
 					if err != nil {
-						return
+						return uTranslators
 					}
 					continue
 				}
@@ -83,4 +102,5 @@ func LoadTranslate(params I18nParams, uTranslators *ut.UniversalTranslator) {
 		}
 
 	}
+	return uTranslators
 }

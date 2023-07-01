@@ -1,4 +1,4 @@
-module github.com/gestgo/gest/package/extension/logfx
+module github.com/sigmaott/gest/package/extension/logfx
 
 require (
 	go.uber.org/fx v1.19.2

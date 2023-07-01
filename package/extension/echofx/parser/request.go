@@ -20,7 +20,7 @@ func (b *RequestParams[T]) Parser(next echo.HandlerFunc) echo.HandlerFunc {
 		data := new(T)
 		err := b.binder.Bind(data, c)
 		if err != nil {
-			return c.JSON(400, err)
+			return err
 		}
 		if b.validate {
 			if err = c.Validate(data); err != nil {

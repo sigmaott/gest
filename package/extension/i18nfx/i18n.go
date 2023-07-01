@@ -60,6 +60,8 @@ func (i *I18nService) T(lang string, key string, params ...string) (string, erro
 	if !found {
 		trans = i.i18n.GetFallback()
 	}
+	//b, _ := json.Marshal(trans)
+
 	if message, err := trans.T(key, params...); err != nil {
 		return key, err
 	} else {
@@ -78,9 +80,7 @@ func NewI18nService(params Params) II18nService {
 		i18n: params.I18n,
 	}
 }
-func Module() fx.Option {
-	return fx.Module("i18nfx", fx.Provide(NewUniversalTranslator, NewI18nService))
-}
+
 func StringToPluralRule(s string) locales.PluralRule {
 	switch s {
 	case "Unknown":

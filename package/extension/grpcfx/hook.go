@@ -2,7 +2,6 @@ package grpcfx
 
 import (
 	"context"
-	"fmt"
 	"go.uber.org/fx"
 	"google.golang.org/grpc"
 	"log"
@@ -11,7 +10,7 @@ import (
 
 type Params struct {
 	fx.In
-	GrpcPort        int               `name:"grpcPort"`
+	Uri             string            `name:"grpcUri"`
 	GrpcServer      *grpc.Server      `name:"grpcServer"`
 	RegisterServers []IGrpcController `group:"grpcControllers"`
 }
@@ -42,10 +41,10 @@ func RegisterGRPCHooks(
 		fx.Hook{
 			OnStart: func(context.Context) error {
 				go func() {
-					
+
 					InitGrpcController(grpcSever, registerServers)
 
-					lis, err := net.Listen("tcp", fmt.Sprintf(":%d", params.GrpcPort))
+					lis, err := net.Listen("tcp", params.Uri)
 					if err != nil {
 						log.Fatalf("failed to listen: %v", err)
 					}

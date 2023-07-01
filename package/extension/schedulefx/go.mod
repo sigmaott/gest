@@ -3,7 +3,7 @@ module github.com/gestgo/gest/package/extension/schedulefx
 go 1.19
 
 require (
-	github.com/gestgo/gest/package/core v0.0.0-20230415175542-f220639108bb
+	github.com/sigmaott/gest/package/core v0.0.1
 	github.com/go-co-op/gocron v1.22.1
 	go.uber.org/fx v1.19.2
 )
