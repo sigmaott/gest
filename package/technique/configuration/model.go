@@ -1,4 +1,4 @@
-package config
+package configuration
 
 type HostPort struct {
 	Host     string `yaml:"host"  mapstructure:"host"`

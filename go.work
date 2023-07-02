@@ -2,7 +2,7 @@ go 1.19
 use (
 	package/core
 
-	package/common/config
+	./package/technique/configuration
 
 	package/extension/echofx
 	package/extension/logfx
@@ -21,13 +21,14 @@ use (
 
 	package/technique/cache
 	package/common/query-builder
+	package/technique/pagination
 
 
 )
 replace (
     github.com/sigmaott/gest/package/core v0.0.1 => ./package/core
-    github.com/sigmaott/gest/package/common/config v0.0.1 => ./package/common/config
-    github.com/sigmaott/gest/package/common/pagination v0.0.1 => ./package/common/pagination
+    github.com/sigmaott/gest/package/common/config v0.0.1 => ./package/technique/config
+    github.com/sigmaott/gest/package/common/pagination v0.0.1 => ./package/technique/pagination
     github.com/sigmaott/gest/package/extension/echofx v0.0.1 => ./package/extension/echofx
 	github.com/sigmaott/gest/package/extension/logfx v0.0.1  => ./package/extension/logfx
 	github.com/sigmaott/gest/package/extension/i18nfx v0.0.1 => ./package/extension/i18nfx

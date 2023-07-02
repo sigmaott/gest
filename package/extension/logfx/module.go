@@ -13,7 +13,7 @@ func SyslogTimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 
 type Params struct {
 	fx.In
-	Lever string `optional:"true"`
+	Lever string `name:"lever"`
 }
 
 func GetLogLever(level string) zapcore.Level {
@@ -46,13 +46,13 @@ func ProvideLogger(params Params) *zap.SugaredLogger {
 	return logger.Sugar()
 }
 
-//// Module provided to fx
-//var Module = fx.Module("gestlog",
-//	fx.Provide(ProvideLogger),
-//)
-
-func Module() fx.Option {
+func ForRoot(logLevel string) fx.Option {
 	return fx.Module("gestlog",
+		fx.Provide(fx.Annotate(
+			func() string {
+				return logLevel
+			},
+			fx.ResultTags("lever"))),
 		fx.Provide(ProvideLogger),
 	)
 }
