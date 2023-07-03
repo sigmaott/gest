@@ -22,7 +22,7 @@ require (
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
-	github.com/sigmaott/gest/package/core v0.0.0-20230702141713-a4f3bcf04278 // indirect
+	github.com/sigmaott/gest/package/core v0.0.0-20230703031018-243f99ed15b0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
