@@ -3,11 +3,11 @@ package i18nfx
 import (
 	"log"
 
-	"github.com/gestgo/gest/package/extension/i18nfx/loader"
 	"github.com/go-playground/locales"
 	"github.com/go-playground/locales/en"
 	ut "github.com/go-playground/universal-translator"
 	"github.com/samber/lo"
+	"github.com/sigmaott/gest/package/extension/i18nfx/loader"
 	"go.uber.org/fx"
 )
 

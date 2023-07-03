@@ -1,8 +1,8 @@
 package i18nfx
 
 import (
-	"github.com/gestgo/gest/package/extension/i18nfx/loader"
 	"github.com/go-playground/locales"
+	"github.com/sigmaott/gest/package/extension/i18nfx/loader"
 	"go.uber.org/fx"
 )
 
