@@ -3,7 +3,6 @@ module github.com/sigmaott/gest/package/extension/asynqfx
 go 1.19
 
 require (
-	github.com/sigmaott/gest/package/core v0.0.1
 	github.com/hibiken/asynq v0.24.0
 	go.uber.org/fx v1.19.2
 )
@@ -15,6 +14,7 @@ require (
 	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/robfig/cron/v3 v3.0.1 // indirect
+	github.com/sigmaott/gest/package/core v0.0.0-20230703064859-ec17b17de097 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/dig v1.16.1 // indirect

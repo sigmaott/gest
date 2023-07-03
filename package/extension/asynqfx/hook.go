@@ -2,8 +2,8 @@ package asynqfx
 
 import (
 	"context"
-	"github.com/gestgo/gest/package/core/router"
 	"github.com/hibiken/asynq"
+	"github.com/sigmaott/gest/package/core/router"
 	"go.uber.org/fx"
 	"log"
 )
@@ -18,7 +18,7 @@ type Params struct {
 type AsynqHook struct {
 }
 
-func RegisterAsynqHooks(
+func registerAsynqHooks(
 	lifecycle fx.Lifecycle,
 	params Params,
 ) Result {
@@ -51,4 +51,13 @@ func RegisterAsynqHooks(
 type Result struct {
 	fx.Out
 	AsynqHook *AsynqHook
+}
+
+func AsRoute(f any, annotation ...fx.Annotation) any {
+	annotation = append(annotation, fx.As(new(any)),
+		fx.ResultTags(`group:"asynqJobs"`))
+	return fx.Annotate(
+		f,
+		annotation...,
+	)
 }
