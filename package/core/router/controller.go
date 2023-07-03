@@ -43,7 +43,5 @@ func InitRouter(controllers []any) {
 		router.InitRouter()
 
 	}
-	//for _, controller := range controllers {
-	//	controller.InitRouter()
-	//}
+
 }
