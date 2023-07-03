@@ -3,7 +3,6 @@ module github.com/sigmaott/gest/package/extension/echofx
 go 1.19
 
 require (
-	github.com/sigmaott/gest/package/core v0.0.1
 	github.com/labstack/echo/v4 v4.10.2
 	github.com/swaggo/files/v2 v2.0.0
 	github.com/swaggo/swag v1.16.1
@@ -23,6 +22,7 @@ require (
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
+	github.com/sigmaott/gest/package/core v0.0.0-20230702141713-a4f3bcf04278 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
