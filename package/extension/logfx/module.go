@@ -52,7 +52,7 @@ func ForRoot(logLevel string) fx.Option {
 			func() string {
 				return logLevel
 			},
-			fx.ResultTags("lever"))),
+			fx.ResultTags("name:lever"))),
 		fx.Provide(ProvideLogger),
 	)
 }
