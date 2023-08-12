@@ -1,10 +1,11 @@
 package logfx
 
 import (
+	"time"
+
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"time"
 )
 
 func SyslogTimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
@@ -52,7 +53,7 @@ func ForRoot(logLevel string) fx.Option {
 			func() string {
 				return logLevel
 			},
-			fx.ResultTags("name:lever"))),
+			fx.ResultTags(`name:"lever"`))),
 		fx.Provide(ProvideLogger),
 	)
 }
