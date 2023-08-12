@@ -17,7 +17,7 @@ type Params struct {
 func RegisterNatsHooks(
 	lifecycle fx.Lifecycle,
 	params Params,
-) *nats.Conn {
+) {
 	platformNats := params.PlatformNats
 	lifecycle.Append(
 		fx.Hook{
@@ -34,7 +34,6 @@ func RegisterNatsHooks(
 
 			},
 		})
-	return platformNats
 
 }
 
