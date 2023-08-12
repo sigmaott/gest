@@ -2,6 +2,7 @@ package natsfx
 
 import (
 	"context"
+	"log"
 
 	"github.com/nats-io/nats.go"
 	"github.com/sigmaott/gest/package/core/router"
@@ -25,7 +26,7 @@ func RegisterNatsHooks(
 				go func() {
 					router.InitRouter(params.Routers)
 				}()
-
+				log.Printf("starting nats microservice with on %d routers", len(params.Routers))
 				return nil
 			},
 			OnStop: func(ctx context.Context) error {
