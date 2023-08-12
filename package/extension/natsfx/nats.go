@@ -2,15 +2,16 @@ package natsfx
 
 import (
 	"context"
-	"github.com/gestgo/gest/package/core/router"
+
 	"github.com/nats-io/nats.go"
+	"github.com/sigmaott/gest/package/core/router"
 	"go.uber.org/fx"
 )
 
 type Params struct {
 	fx.In
 	PlatformNats *nats.Conn
-	Routers      []router.IRouter `group:"natsSubject"`
+	Routers      []any `group:"natsSubject"`
 }
 
 func RegisterNatsHooks(
@@ -40,4 +41,13 @@ func RegisterNatsHooks(
 type Result struct {
 	fx.Out
 	Router router.IRouter `group:"natsRouters"`
+}
+
+func AsRoute(f any, annotation ...fx.Annotation) any {
+	annotation = append(annotation, fx.As(new(any)),
+		fx.ResultTags(`group:"natsSubject"`))
+	return fx.Annotate(
+		f,
+		annotation...,
+	)
 }
