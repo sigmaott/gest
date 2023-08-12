@@ -17,7 +17,7 @@ type Params struct {
 func RegisterNatsHooks(
 	lifecycle fx.Lifecycle,
 	params Params,
-) {
+) *NatsHook {
 	platformNats := params.PlatformNats
 	lifecycle.Append(
 		fx.Hook{
@@ -34,12 +34,14 @@ func RegisterNatsHooks(
 
 			},
 		})
+	return &NatsHook{
+		platformNats,
+	}
 
 }
 
-type Result struct {
-	fx.Out
-	Router router.IRouter `group:"natsRouters"`
+type NatsHook struct {
+	PlatformNats *nats.Conn
 }
 
 func AsRoute(f any, annotation ...fx.Annotation) any {
