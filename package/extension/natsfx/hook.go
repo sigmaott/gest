@@ -4,6 +4,6 @@ import (
 	"go.uber.org/fx"
 )
 
-func Module() fx.Option {
+func ForRoot() fx.Option {
 	return fx.Module("natsfx", fx.Provide(RegisterNatsHooks))
 }
