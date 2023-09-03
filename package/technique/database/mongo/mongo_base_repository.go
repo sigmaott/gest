@@ -22,10 +22,10 @@ func (b *BaseMongoRepository[T]) FindAll(ctx context.Context, query any, paginat
 	if sort != nil {
 		sortMongo := bson.M{}
 		for k, v := range *sort {
-			if v == repository.DESC {
+			if v == base.DESC {
 				sortMongo[k] = -1
 			}
-			if v == repository.ASC {
+			if v == base.ASC {
 				sortMongo[k] = 1
 			}
 
@@ -140,7 +140,7 @@ func (b *BaseMongoRepository[T]) Paginate(ctx context.Context, query any, pagina
 	return res, nil
 }
 
-func NewBaseRepository[T any](db *mongo.Database, collectionName string) repository.IRepository[T] {
+func NewBaseRepository[T any](db *mongo.Database, collectionName string) base.IRepository[T] {
 	return &BaseMongoRepository[T]{
 		Collection: db.Collection(collectionName),
 	}
