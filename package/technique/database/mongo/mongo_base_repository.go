@@ -13,7 +13,7 @@ type BaseMongoRepository[T any] struct {
 	Collection *mongo.Collection
 }
 
-func (b *BaseMongoRepository[T]) FindAll(ctx context.Context, query any, paginate *repository.Paginate, sort *repository.Sort) (results []*T, err error) {
+func (b *BaseMongoRepository[T]) FindAll(ctx context.Context, query any, paginate *base.Paginate, sort *base.Sort) (results []*T, err error) {
 	opt := options.Find()
 	results = []*T{}
 	if paginate != nil {
