@@ -9,12 +9,7 @@ import (
 	"log"
 	"reflect"
 	"strconv"
-	"strings"
-)
 
-var operators = map[string]string{
-	"$eq":     "$eq",
-	"$ne":     "$ne",
 	"$gt":     "$gt",
 	"$gte":    "$gte",
 	"$lt":     "$lt",

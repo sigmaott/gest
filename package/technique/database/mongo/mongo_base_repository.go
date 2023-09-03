@@ -2,11 +2,10 @@ package mongo
 
 import (
 	"context"
-	"github.com/gestgo/gest/package/core/repository"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"log"
 )
 
 type BaseMongoRepository[T any] struct {
@@ -132,7 +131,6 @@ func (b *BaseMongoRepository[T]) Paginate(ctx context.Context, query any, pagina
 	if err != nil {
 		return nil, err
 	}
-	log.Print(data, err)
 	res.Page = (paginate.Offset / paginate.Limit) + 1
 	res.PerPage = paginate.Limit
 	res.Data = data

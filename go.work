@@ -14,14 +14,15 @@ use (
 	package/extension/grpcfx
 
 	package/technique/validate
-	package/technique/mongo
+	package/technique/database/mongo
+	package/technique/database/pagination
 	package/technique/health
 	package/technique/version
 
 
 	package/technique/cache
 	package/common/query-builder
-	package/technique/pagination
+	package/extension/natsfx
 
 
 )
