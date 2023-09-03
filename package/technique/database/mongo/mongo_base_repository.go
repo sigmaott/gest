@@ -3,7 +3,7 @@ package mongo
 import (
 	"context"
 
-	"github.com/sigmaott/gest/package/technique/database/mongo"
+	base "github.com/sigmaott/gest/package/technique/database/base"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -115,8 +115,8 @@ func (b *BaseMongoRepository[T]) Count(ctx context.Context, query any) (count in
 	return
 }
 
-func (b *BaseMongoRepository[T]) Paginate(ctx context.Context, query any, paginate *repository.Paginate, sort *repository.Sort) (results *repository.PaginateResponse[T], err error) {
-	res := new(repository.PaginateResponse[T])
+func (b *BaseMongoRepository[T]) Paginate(ctx context.Context, query any, paginate *repository.Paginate, sort *repository.Sort) (results *base.PaginateResponse[T], err error) {
+	res := new(base.PaginateResponse[T])
 	res.Data = []*T{}
 	count, err := b.Count(ctx, query)
 	if err != nil {
