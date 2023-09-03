@@ -115,7 +115,7 @@ func (b *BaseMongoRepository[T]) Count(ctx context.Context, query any) (count in
 	return
 }
 
-func (b *BaseMongoRepository[T]) Paginate(ctx context.Context, query any, paginate *repository.Paginate, sort *repository.Sort) (results *base.PaginateResponse[T], err error) {
+func (b *BaseMongoRepository[T]) Paginate(ctx context.Context, query any, paginate *base.Paginate, sort *base.Sort) (results *base.PaginateResponse[T], err error) {
 	res := new(base.PaginateResponse[T])
 	res.Data = []*T{}
 	count, err := b.Count(ctx, query)
