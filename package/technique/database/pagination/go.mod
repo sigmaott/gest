@@ -1,4 +1,4 @@
-module github.com/sigmaott/gest/package/technique/database/pagination
+module github.com/sigmaott/gest/package/extension/database/pagination
 
 go 1.19
 

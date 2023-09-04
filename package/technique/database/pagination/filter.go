@@ -3,13 +3,19 @@ package query_builder
 import (
 	"errors"
 	"fmt"
-	repository "github.com/sigmaott/gest/package/technique/database/base"
-	"github.com/samber/lo"
-	"go.mongodb.org/mongo-driver/bson"
 	"log"
 	"reflect"
 	"strconv"
+	"strings"
 
+	"github.com/samber/lo"
+	repository "github.com/sigmaott/gest/package/extension/database/pagination"
+	"go.mongodb.org/mongo-driver/bson"
+)
+
+var operators = map[string]string{
+	"$eq":     "$eq",
+	"$ne":     "$ne",
 	"$gt":     "$gt",
 	"$gte":    "$gte",
 	"$lt":     "$lt",
