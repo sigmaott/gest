@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/samber/lo"
-	repository "github.com/sigmaott/gest/package/extension/database/pagination"
+	repository "github.com/sigmaott/gest/package/technique/database/base"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
