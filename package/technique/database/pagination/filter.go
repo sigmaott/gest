@@ -3,7 +3,7 @@ package query_builder
 import (
 	"errors"
 	"fmt"
-	"github.com/gestgo/gest/package/core/repository"
+	repository "github.com/sigmaott/gest/package/technique/database/base"
 	"github.com/samber/lo"
 	"go.mongodb.org/mongo-driver/bson"
 	"log"
