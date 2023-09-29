@@ -2,7 +2,8 @@ package kafkafx
 
 import (
 	"context"
-	"github.com/gestgo/gest/package/core/router"
+
+	"github.com/sigmaott/gest/package/core/router"
 	"go.uber.org/fx"
 )
 
