@@ -159,7 +159,7 @@ func parseSortExpression(expression string) (key string, value string, err error
 		}
 		suffixTwo := fmt.Sprintf("|%s", keyOperator)
 
-		if strings.HasSuffix(expression, suffix) {
+		if strings.HasSuffix(expression, suffixTwo) {
 			operator = valueOperator
 			valueStr := strings.TrimSuffix(expression, suffixTwo)
 			return valueStr, operator, nil
