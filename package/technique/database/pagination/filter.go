@@ -1,7 +1,6 @@
 package query_builder
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"reflect"
@@ -158,9 +157,17 @@ func parseSortExpression(expression string) (key string, value string, err error
 			return valueStr, operator, nil
 
 		}
+		suffixTwo := fmt.Sprintf("|%s", keyOperator)
+
+		if strings.HasSuffix(expression, suffix) {
+			operator = valueOperator
+			valueStr := strings.TrimSuffix(expression, suffixTwo)
+			return valueStr, operator, nil
+
+		}
 
 	}
-	return "", "", NewValidateError(errors.New(fmt.Sprintf("sort %s is invaldate", expression)))
+	return "", "", NewValidateError(fmt.Errorf(fmt.Sprintf("sort %s is invaldate", expression)))
 }
 
 func parsePaginate(query map[string][]string) (*repository.Paginate, error) {
