@@ -4,13 +4,13 @@ go 1.19
 
 require (
 	github.com/segmentio/kafka-go v0.4.39
+	github.com/sigmaott/gest/package/core v0.0.0-20230917031801-df775b3848eb
 	go.uber.org/fx v1.19.2
 )
 
 require (
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/pierrec/lz4/v4 v4.1.15 // indirect
-	github.com/sigmaott/gest/package/core v0.0.0-20230917031801-df775b3848eb // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/dig v1.16.1 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
