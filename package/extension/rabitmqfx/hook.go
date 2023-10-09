@@ -2,8 +2,9 @@ package rabitmqfx
 
 import (
 	"context"
-	"github.com/gestgo/gest/package/core/router"
+
 	amqp "github.com/rabbitmq/amqp091-go"
+	"github.com/sigmaott/gest/package/core/router"
 	"go.uber.org/fx"
 )
 
@@ -48,4 +49,12 @@ func NewRabbitmqSubscriber(params ParamsNewRabbitmqSubscriber) *RabbitmqSubscrib
 		Conn: params.PlatformRabbitmqMQ,
 	}
 
+}
+func AsRoute(f any, annotation ...fx.Annotation) any {
+	annotation = append(annotation, fx.As(new(any)),
+		fx.ResultTags(`group:"rabbitQueues"`))
+	return fx.Annotate(
+		f,
+		annotation...,
+	)
 }
