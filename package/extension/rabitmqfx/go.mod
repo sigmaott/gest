@@ -3,7 +3,7 @@ module github.com/sigmaott/gest/package/extension/rabitmqfx
 go 1.19
 
 require (
-	github.com/rabbitmq/amqp091-go v1.8.0
+	github.com/rabbitmq/amqp091-go v1.9.0
 	github.com/sigmaott/gest/package/core v0.0.0-20230917031801-df775b3848eb
 	go.uber.org/fx v1.19.2
 )
