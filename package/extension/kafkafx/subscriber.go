@@ -2,6 +2,7 @@ package kafkafx
 
 import (
 	"context"
+
 	"github.com/segmentio/kafka-go"
 )
 

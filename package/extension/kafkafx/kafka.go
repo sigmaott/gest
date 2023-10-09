@@ -13,3 +13,11 @@ func Module() fx.Option {
 
 		fx.Provide(RegisterKafkaHooks))
 }
+func AsRoute(f any, annotation ...fx.Annotation) any {
+	annotation = append(annotation, fx.As(new(any)),
+		fx.ResultTags(`group:"natsSubject"`))
+	return fx.Annotate(
+		f,
+		annotation...,
+	)
+}

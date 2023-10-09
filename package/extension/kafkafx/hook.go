@@ -40,3 +40,12 @@ type Result struct {
 	fx.Out
 	Topic router.IRouter `group:"kafkaTopics"`
 }
+
+func AsRoute(f any, annotation ...fx.Annotation) any {
+	annotation = append(annotation, fx.As(new(any)),
+		fx.ResultTags(`group:"kafkaTopics"`))
+	return fx.Annotate(
+		f,
+		annotation...,
+	)
+}
