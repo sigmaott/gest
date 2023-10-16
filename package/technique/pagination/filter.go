@@ -3,13 +3,14 @@ package query_builder
 import (
 	"errors"
 	"fmt"
-	"github.com/gestgo/gest/package/core/repository"
-	"github.com/samber/lo"
-	"go.mongodb.org/mongo-driver/bson"
 	"log"
 	"reflect"
 	"strconv"
 	"strings"
+
+	"github.com/gestgo/gest/package/core/repository"
+	"github.com/samber/lo"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 var operators = map[string]string{
@@ -36,10 +37,10 @@ var operatorSorts = map[string]string{
 
 func MongoParserQuery[T any](query map[string][]string) (bson.M, map[string]string, *repository.Paginate, error) {
 
-	const FILTER = "filter"
+	const FILTER = "q"
 	queryDb := map[string][]string{}
 	for key, value := range query {
-		if strings.HasPrefix(key, FILTER) {
+		if key == FILTER {
 			queryDb[strings.Replace(key, fmt.Sprintf("%s.", FILTER), "", 1)] = value
 		}
 
