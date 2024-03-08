@@ -1,3 +1,3 @@
-module github.com/sigmaott/gest/package/extension/config
+module github.com/sigmaott/gest/package/extension/configfx
 
 go 1.19
