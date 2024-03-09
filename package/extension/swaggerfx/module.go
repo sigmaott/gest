@@ -1,4 +1,4 @@
-package swagger
+package swaggerfx
 
 import (
 	"github.com/go-swagno/swagno"
