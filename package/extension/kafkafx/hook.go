@@ -16,7 +16,7 @@ type Params struct {
 func RegisterKafkaHooks(
 	lifecycle fx.Lifecycle,
 	params Params,
-) *KafkaSubscriber {
+) *Result {
 
 	lifecycle.Append(
 		fx.Hook{
@@ -32,13 +32,11 @@ func RegisterKafkaHooks(
 
 			},
 		})
-	return params.KafkaSubscriber
+	return &Result{}
 
 }
 
 type Result struct {
-	fx.Out
-	Topic router.IRouter `group:"kafkaTopics"`
 }
 
 func AsRoute(f any, annotation ...fx.Annotation) any {
