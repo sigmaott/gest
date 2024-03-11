@@ -5,11 +5,11 @@ import "go.uber.org/fx"
 func Module() fx.Option {
 	return fx.Module("kafkafx",
 		fx.Provide(
-			fx.Annotate(
-				func() *KafkaSubscriber {
-					return &KafkaSubscriber{}
-				},
-				fx.ResultTags(`name:"platformKafka"`))),
+
+			func() *KafkaSubscriber {
+				return &KafkaSubscriber{}
+			},
+		),
 
 		fx.Provide(RegisterKafkaHooks))
 }
