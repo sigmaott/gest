@@ -9,8 +9,8 @@ import (
 
 type Params struct {
 	fx.In
-	KafkaSubscriber *KafkaSubscriber `name:"platformKafka"`
-	KafkaTopics     []any            `group:"kafkaTopics"`
+	KafkaSubscriber *KafkaSubscriber
+	KafkaTopics     []any `group:"kafkaTopics"`
 }
 
 func RegisterKafkaHooks(
