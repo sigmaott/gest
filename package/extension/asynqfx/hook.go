@@ -2,10 +2,11 @@ package asynqfx
 
 import (
 	"context"
+	"log"
+
 	"github.com/hibiken/asynq"
 	"github.com/sigmaott/gest/package/core/router"
 	"go.uber.org/fx"
-	"log"
 )
 
 type Params struct {
@@ -43,14 +44,10 @@ func registerAsynqHooks(
 			},
 		},
 	)
-	return Result{
-		AsynqHook: &AsynqHook{},
-	}
+	return Result{}
 }
 
 type Result struct {
-	fx.Out
-	AsynqHook *AsynqHook
 }
 
 func AsRoute(f any, annotation ...fx.Annotation) any {

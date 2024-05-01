@@ -23,7 +23,8 @@ type Config struct {
 	SyntaxHighlight      bool
 
 	// The information for OAuth2 integration, if any.
-	OAuth *OAuthConfig
+	OAuth       *OAuthConfig
+	DynamicLoad *func() []byte
 }
 
 // OAuthConfig stores configuration for Swagger UI OAuth2 integration. See
@@ -162,11 +163,19 @@ func EchoWrapHandler(options ...func(*Config)) echo.HandlerFunc {
 		case "api-docs":
 			_ = index.Execute(c.Response().Writer, config)
 		case "api-docs-json":
-			doc, err := swag.ReadDoc(config.InstanceName)
-			if err != nil {
-				c.Error(err)
+			var doc string
+			var err error
+			if config.DynamicLoad != nil {
+				f := *config.DynamicLoad
+				doc = string(f())
 
-				return nil
+			} else {
+				doc, err = swag.ReadDoc(config.InstanceName)
+				if err != nil {
+					c.Error(err)
+
+					return nil
+				}
 			}
 
 			_, _ = c.Response().Writer.Write([]byte(doc))
