@@ -28,21 +28,23 @@ type prometheusMetrics struct {
 	gauges     map[string]prometheus.Gauge
 	histograms map[string]prometheus.Histogram
 	summaries  map[string]prometheus.Summary
+	registry   *prometheus.Registry
 }
 
-func NewPrometheusMetrics() IMetrics {
+func NewPrometheusMetrics(registry *prometheus.Registry) IMetrics {
 	return &prometheusMetrics{
 		counters:   make(map[string]prometheus.Counter),
 		gauges:     make(map[string]prometheus.Gauge),
 		histograms: make(map[string]prometheus.Histogram),
 		summaries:  make(map[string]prometheus.Summary),
+		registry:   registry,
 	}
 }
 
 func (m *prometheusMetrics) IncrementCounter(name string, opt prometheus.CounterOpts) {
 
 	counter := prometheus.NewCounter(opt)
-	prometheus.MustRegister(counter)
+	m.registry.MustRegister(counter)
 	m.counters[name] = counter
 
 }
@@ -58,7 +60,7 @@ func (m *prometheusMetrics) GetCounter(name string) (prometheus.Counter, error) 
 func (m *prometheusMetrics) AddGauge(name string, opt prometheus.GaugeOpts) {
 
 	gauge := prometheus.NewGauge(opt)
-	prometheus.MustRegister(gauge)
+	m.registry.MustRegister(gauge)
 	m.gauges[name] = gauge
 
 	// Since Set() is not part of GaugeOpts, we cannot set a value here.
@@ -76,7 +78,7 @@ func (m *prometheusMetrics) GetGauge(name string) (prometheus.Gauge, error) {
 func (m *prometheusMetrics) ObserveHistogram(name string, opt prometheus.HistogramOpts) {
 
 	histogram := prometheus.NewHistogram(opt)
-	prometheus.MustRegister(histogram)
+	m.registry.MustRegister(histogram)
 	m.histograms[name] = histogram
 
 	// Since Observe() is not part of HistogramOpts, we cannot observe a value here.
@@ -94,7 +96,7 @@ func (m *prometheusMetrics) GetHistogram(name string) (prometheus.Histogram, err
 func (m *prometheusMetrics) ObserveSummary(name string, opt prometheus.SummaryOpts) {
 
 	summary := prometheus.NewSummary(opt)
-	prometheus.MustRegister(summary)
+	m.registry.MustRegister(summary)
 	m.summaries[name] = summary
 
 	// Since Observe() is not part of SummaryOpts, we cannot observe a value here.
