@@ -4,10 +4,9 @@ import (
 	"context"
 	"fmt"
 	"os"
-
 	"syscall"
 
-	"github.com/etherlabsio/healthcheck/v2"
+	healthcheck "github.com/sigmaott/gest/package/technique/health"
 )
 
 type diskspace struct {
