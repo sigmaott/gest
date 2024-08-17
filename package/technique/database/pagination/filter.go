@@ -89,9 +89,7 @@ func MongoParserQuery[T any](query map[string][]string) (bson.M, map[string]stri
 			return nil, nil, nil, err
 		}
 
-		if len(val) == 1 {
-			filter[key] = val[0]
-		} else if len(val) > 0 {
+		if len(val) > 0 {
 			queryInFields := lo.Map(val, func(item string, index int) bson.M {
 				filter, err := parseFilterExpression(item)
 				if err != nil {
@@ -158,7 +156,7 @@ func MongoParserQuery[T any](query map[string][]string) (bson.M, map[string]stri
 func parseFilterExpression(expression string) (filter bson.M, err error) {
 	// filter = bson.M{}
 	expression = strings.TrimSpace(expression)
-	var value any
+	var value bson.M
 	var operator string
 	for keyOperator, valueOperator := range operators {
 		prefix := fmt.Sprintf("%s:", keyOperator)
