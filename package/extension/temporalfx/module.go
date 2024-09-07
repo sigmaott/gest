@@ -3,6 +3,7 @@ package temporalfx
 import (
 	"context"
 
+	worker_factory "github.com/sigmaott/gest/package/extension/temporalfx/worker-factory"
 	"go.temporal.io/sdk/client"
 	"go.uber.org/fx"
 )
@@ -21,6 +22,9 @@ func ForRoot(ctx context.Context, temporalClient client.Client) fx.Option {
 				},
 				fx.ResultTags(`group:"temporalWorkers"`),
 			),
+		),
+		fx.Provide(
+			worker_factory.NewWorkerFactory,
 		),
 		// Register lifecycle hooks
 		fx.Provide(

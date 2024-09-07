@@ -5,7 +5,6 @@ go 1.21
 toolchain go1.23.0
 
 require (
-	github.com/gestgo/gest/package/core v0.0.0-20230511012607-5b007a59cf74
 	go.temporal.io/sdk v1.29.0
 	go.uber.org/fx v1.19.2
 )
