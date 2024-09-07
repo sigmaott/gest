@@ -18,7 +18,6 @@ func RegisterTemporalHooks(
 	lifecycle fx.Lifecycle,
 	params Params,
 ) *Result {
-
 	lifecycle.Append(
 		fx.Hook{
 			OnStart: func(context.Context) error {
@@ -38,4 +37,13 @@ func RegisterTemporalHooks(
 }
 
 type Result struct {
+}
+
+func AsRoute(f any, annotation ...fx.Annotation) any {
+	annotation = append(annotation, fx.As(new(any)),
+		fx.ResultTags(`group:"temporalWorkers"`))
+	return fx.Annotate(
+		f,
+		annotation...,
+	)
 }
