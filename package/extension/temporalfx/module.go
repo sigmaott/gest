@@ -13,18 +13,18 @@ func ForRoot(ctx context.Context, temporalClient client.Client) fx.Option {
 	return fx.Module("temporalfx",
 		// Provide the Temporal client with a name
 		fx.Provide(
-			func() client.Client {
-				return temporalClient
-			},
 			fx.Annotate(
-				func() *Result {
-					return &Result{}
+				func() client.Client {
+					return temporalClient
 				},
-				fx.ResultTags(`group:"temporalWorkers"`),
+				fx.ResultTags(`name:"temporalClient"`),
 			),
 		),
 		fx.Provide(
-			worker_factory.NewWorkerFactory,
+			fx.Annotate(
+				worker_factory.NewWorkerFactory,
+				fx.ParamTags(`name:"temporalClient"`),
+			),
 		),
 		// Register lifecycle hooks
 		fx.Provide(
