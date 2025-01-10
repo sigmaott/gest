@@ -1,6 +1,9 @@
 package logfx
 
 import (
+	"context"
+	"fmt"
+	"strings"
 	"time"
 
 	"go.uber.org/fx"
@@ -56,4 +59,19 @@ func ForRoot(logLevel string) fx.Option {
 			fx.ResultTags(`name:"lever"`))),
 		fx.Provide(ProvideLogger),
 	)
+}
+
+func ContextDetail(ctx context.Context, keys ...string) string {
+	var sb strings.Builder
+	sb.WriteString("[")
+
+	var parts []string
+	for _, key := range keys {
+		value := ctx.Value(key)
+		parts = append(parts, fmt.Sprintf("%s: %v", key, value))
+	}
+
+	sb.WriteString(strings.Join(parts, ", "))
+	sb.WriteString("]")
+	return sb.String()
 }
